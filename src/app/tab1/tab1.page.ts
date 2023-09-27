@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Swiper } from 'Swiper';
+import { register } from 'swiper/element/bundle';
+register(); //Se debe importar en cada componente que se vayan a usar
+// import { Swiper } from 'Swiper';
 
 interface productslide {
   id: number,
@@ -16,6 +18,10 @@ export class Tab1Page {
 
 
   constructor() { }
+
+  swiperSlideChanged(e: any) {
+    console.log('Changed', e);
+  }
 
   masVendidos: productslide[] = [
     {

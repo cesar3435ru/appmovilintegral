@@ -9,7 +9,7 @@
 
 
 <ion-content>
-  <swiper-container>
+  <swiper-container effect="flip" (slidechange)="swiperSlideChanged($event)" [loop]="true" [pagination]="true">
     <swiper-slide *ngFor="let mas of masVendidos">
      <ion-card class="ion-padding">
       <img [src]="mas.imagen">
