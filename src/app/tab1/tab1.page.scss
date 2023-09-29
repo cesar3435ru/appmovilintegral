@@ -1,0 +1,19 @@
+.imagen {
+    width: 400px;
+    height: 300px;
+}
+
+//Para telefonos
+@media (max-width: 767px) {
+    .imagen {
+        width: 100px;
+        height: 80px; 
+    }
+}
+//Para medidas mas grandes
+@media (min-width: 768px) {
+    .imagen {
+        width: 500px;
+        height: 400px;
+    }
+}
