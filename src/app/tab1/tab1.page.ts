@@ -1,7 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 register(); //Se debe importar en cada componente que se vayan a usar
-// import { Swiper } from 'Swiper';
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexTitleSubtitle
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  title: ApexTitleSubtitle;
+};
+
 
 interface productslide {
   id: number,
@@ -25,10 +39,34 @@ interface product {
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+
+  @ViewChild("chart") chart!: ChartComponent;
+  public chartOptions!: Partial<ChartOptions>;
   titulo = 'Sistema de inventario';
 
 
-  constructor() { }
+  constructor() {
+    this.chartOptions = {
+      series: [
+        {
+          name: "My-series",
+          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      title: {
+        text: "My First Angular Chart"
+      },
+      xaxis: {
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+      }
+    };
+  }
+
+
 
   swiperSlideChanged(e: any) {
     console.log('Changed', e);
@@ -105,5 +143,7 @@ export class Tab1Page {
       img: 'https://m.media-amazon.com/images/I/61wVdpwmktL._AC_SL1500_.jpg'
     },
   ]
+
+
 
 }

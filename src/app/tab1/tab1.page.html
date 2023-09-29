@@ -35,7 +35,7 @@
           </ion-item>
         </ion-card-header>
 
-        <ion-card-content >
+        <ion-card-content>
           <ion-img [src]="prod.img" class="imagen"></ion-img>
           <h4 style="font-weight: bold;" class="ion-padding">{{ prod.precio | currency}}</h4>
         </ion-card-content>
@@ -43,6 +43,11 @@
       </ion-card>
     </swiper-slide>
   </swiper-container>
+  
+  <div style="text-align:center">
+    <apx-chart [series]="chartOptions.series!" [chart]="chartOptions.chart!" [xaxis]="chartOptions.xaxis!"
+      [title]="chartOptions.title!"></apx-chart>
+  </div>
 
 
 </ion-content>
