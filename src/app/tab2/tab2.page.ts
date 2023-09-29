@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { NewProductComponent } from '../components/new-product/new-product.component';
 
 @Component({
   selector: 'app-tab2',
@@ -7,6 +9,28 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
-  constructor() {}
+
+  categorias = ['Abarrotes','Frutas y Verduras','Limpieza', 'Vinos y Licores','Especias','Golosinas']
+
+  constructor(
+    private modal: ModalController
+  ) {}
+  titulo = 'Productos';
+
+  onSearchChange(event: any){
+    console.log('HOLA');
+    
+  }
+  async openNewProduct(){
+
+    const md = await this.modal.create({
+      component: NewProductComponent,
+      mode: 'ios'
+    })
+
+    await md.present();
+
+  }
+
 
 }

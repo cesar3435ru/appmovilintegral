@@ -58,7 +58,7 @@ export class Tab1Page {
         type: "bar"
       },
       title: {
-        text: "My First Angular Chart"
+        text: "Ventas por mes"
       },
       xaxis: {
         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
