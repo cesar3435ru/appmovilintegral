@@ -11,4 +11,132 @@
 
     </ion-toolbar>
   </ion-header>
+
+
+  <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+    <ion-item>
+      <ion-label position="floating">Name Product*</ion-label>
+      <ion-input type="text" formControlName="name" placeholder="Write a product name"></ion-input>
+      <small *ngIf="validarInput('name');" class="form-text text-danger">
+        Input is required and only a word...
+      </small>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Category*</ion-label>
+      <ion-select name="category_id" formControlName="category_id">
+        <ion-select-option *ngFor="let category_id of categories" [value]="category_id">{{
+          category_id}}</ion-select-option>
+      </ion-select>
+      <small *ngIf="validarInput('category_id');" class="form-text text-danger">
+        Please select a category...
+      </small>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Image Url*</ion-label>
+      <ion-input type="url" formControlName="urlimg" name="urlimg" placeholder="Write a URL"></ion-input>
+      <small *ngIf="validarInput('urlimg');" class="form-text text-danger">
+        Input is required and true URL
+      </small>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Description*</ion-label>
+      <ion-input type="text" name="description" formControlName="description" placeholder="Write a desc"></ion-input>
+      <small *ngIf="validarInput('description');" class="form-text text-danger">
+        Input is required and more words...
+      </small>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Code Product*</ion-label>
+      <ion-input type="text" name="name" formControlName="codeproduct" placeholder="Write a product code"></ion-input>
+      <small *ngIf="validarInput('codeproduct');" class="form-text text-danger">
+        Input is required and only a code...
+      </small>
+    </ion-item>
+
+    <!-- <ion-item>
+      <ion-label position="floating">Price*</ion-label>
+      <ion-input type="number" name="price" placeholder="Write a price" formControlName="price"></ion-input>
+      <small *ngIf="validarInput('price');" class="form-text text-danger">
+        Input is required and integer numbers
+      </small>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Inventory*</ion-label>
+      <ion-input type="number" placeholder="Write a price" formControlName="inventory"></ion-input>
+      <small *ngIf="validarInput('inventory');" class="form-text text-danger">
+        Input is required and integer numbers
+      </small>
+    </ion-item> -->
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="floating">Price*</ion-label>
+          <ion-input type="number" name="price" placeholder="Write a price" formControlName="price"></ion-input>
+          <small *ngIf="validarInput('price');" class="form-text text-danger">
+            Input is required and integer numbers
+          </small>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="floating">Stock*</ion-label>
+          <ion-input type="number" name="stock" placeholder="Write a stock" formControlName="stock"></ion-input>
+          <small *ngIf="validarInput('stock');" class="form-text text-danger">
+            Input is required and integer numbers
+          </small>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="floating">Adquisicion*</ion-label>
+          <ion-input type="date" placeholder="Write a price" formControlName="adquisicion"></ion-input>
+          <small *ngIf="validarInput('adquisicion');" class="form-text text-danger">
+            Input is required
+          </small>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="floating">Vencimiento*</ion-label>
+          <ion-input type="date" placeholder="Write a stock" formControlName="vencimiento"></ion-input>
+          <small *ngIf="validarInput('stock');" class="form-text text-danger">
+            Input is required
+          </small>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+
+    
+
+
+
+    
+
+    <!-- <ion-item>
+      <ion-label position="floating">Mark*</ion-label>
+      <ion-input type="text" formControlName="mark" name="mark" placeholder="Write a mark"></ion-input>
+      <small *ngIf="validarInput('mark');" class="form-text text-danger">
+        Input is required and only a word...
+      </small>
+    </ion-item> -->
+
+
+
+    <ion-button type="submit" [disabled]="productForm.invalid" expand="block" shape="round" color="primary">
+      Register
+      <ion-icon name="cloud" slot="start">
+      </ion-icon>
+    </ion-button>
+
+    <!-- <ion-button type="submit" [disabled]="productForm.invalid">Register <ion-icon slot="start" name="cloud"></ion-icon></ion-button> -->
+
+  </form>
 </ion-content>
