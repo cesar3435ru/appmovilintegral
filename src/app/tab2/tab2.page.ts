@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NewProductComponent } from '../components/new-product/new-product.component';
+import { VerProductComponent } from '../components/ver-product/ver-product.component';
 
 @Component({
   selector: 'app-tab2',
@@ -30,6 +31,22 @@ export class Tab2Page {
 
     await md.present();
 
+  }
+
+  async viewProduct(){
+
+    const md = await this.modal.create({
+      component: VerProductComponent,
+      mode: 'ios'
+    })
+
+    await md.present();
+
+  }
+
+  editProduct(){
+    console.log('HOLA');
+    
   }
 
 

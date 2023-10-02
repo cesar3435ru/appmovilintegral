@@ -22,14 +22,14 @@ export class NewProductComponent implements OnInit {
 
 
   productForm: FormGroup = this.formb.group({
-    name: ['', [Validators.required, Validators.maxLength(20)]],
+    nombre: ['', [Validators.required, Validators.maxLength(20)]],
     codeproduct: ['', [Validators.required, Validators.maxLength(5), Validators.minLength(5)]],
-    description: ['', [Validators.required, Validators.maxLength(100)]],
-    price: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
+    descripcion: ['', [Validators.required, Validators.maxLength(100)]],
+    precio: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
     // inventory: [null, [Validators.required, Validators.min(1),Validators.max(5000), Validators.pattern(this.priceP)]],
     category_id: ['', [Validators.required]],
     stock: [null, [Validators.required, Validators.min(1), Validators.max(1000)]],
-    urlimg: ['', [Validators.required, Validators.maxLength(200)]],
+    imagen: ['', [Validators.required, Validators.maxLength(200)]],
     // mark: ['', [Validators.required, Validators.maxLength(30)]],
     adquisicion: ['', Validators.required],
     vencimiento: ['', Validators.required],
@@ -46,12 +46,13 @@ export class NewProductComponent implements OnInit {
     if (this.productForm.valid) {
       console.log(this.productForm.value);
       this.productForm.reset();
+      this.presentToast('middle');
     }
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'Product added successfully!',
+      message: 'Registro exitoso!',
       duration: 1500,
       position: position,
       icon: 'checkmark-done-outline',

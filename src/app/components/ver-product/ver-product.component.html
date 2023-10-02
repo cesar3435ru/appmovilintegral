@@ -1,0 +1,42 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeModal();" fill="clear">
+          <ion-icon slot="icon-only" name="close">
+          </ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col offset="2" size="8">
+        <img src="https://www.tasteboutique.com/cdn/shop/products/Sabritas_con_sal_170_gr_540x.jpg?v=1586040425" alt="">
+      </ion-col>
+    </ion-row>
+
+    <ion-list>
+      <ion-item>
+        <ion-label>Nombre: Sabritas</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Desc: Las mejores papas</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Precio: {{30 | currency}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Stock: 10 </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Aduisicion: 10 </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Vencimiento: 10 </ion-label>
+      </ion-item>
+    </ion-list>
+
+  </ion-grid>
+</ion-content>
