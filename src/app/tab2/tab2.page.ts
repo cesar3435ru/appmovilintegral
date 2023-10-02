@@ -45,7 +45,7 @@ export class Tab2Page {
   }
 
   editProduct(){
-    console.log('HOLA');
+    console.log('PROBANDO FUNCION');
     
   }
 
