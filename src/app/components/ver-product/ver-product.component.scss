@@ -1,3 +1,22 @@
-img{
+img {
+    border: 2px solid black;
     border-radius: 10px !important;
+    width: 200px;
+    height: 200px;
+}
+
+//Para telefonos
+@media (max-width: 767px) {
+    .img {
+        width: 400px;
+        height: 300px;
+    }
+}
+
+//Para medidas mas grandes
+@media (min-width: 768px) {
+    .img {
+        width: 600px;
+        height: 500px;
+    }
 }

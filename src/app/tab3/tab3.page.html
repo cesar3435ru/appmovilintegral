@@ -13,24 +13,47 @@
   <ion-grid>
     <ion-row>
       <ion-col size="6">
-        <ion-item>
-          <ion-label>Fecha inicio*</ion-label>
+        <ion-label>Fecha inicio*</ion-label>
+        <ion-input type="date"></ion-input>
+        <!-- <ion-item>
           <ion-input type="date"></ion-input>
-          
-        </ion-item>
+        </ion-item> -->
       </ion-col>
       <ion-col size="6">
-        <ion-item>
-          <ion-label>Fecha termino*</ion-label>
-          <ion-input type="date"></ion-input>
-        </ion-item>
-      </ion-col>
-      
-    </ion-row>
+        <ion-label>Fecha termino*</ion-label>
+        <ion-input type="date"></ion-input>
 
+        <!-- <ion-item>
+          <ion-input type="date"></ion-input>
+        </ion-item> -->
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
-  
-  
+  <ion-card>
+    <ion-list>
+      <ion-item lines="full" *ngFor="let x of [1,1,1,1]">
+        <ion-thumbnail slot="start">
+          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+        </ion-thumbnail>
+        <ion-label>Coca Cola
+          <p><b>Stock:</b>100</p>
+          <p><b>Precio: </b>{{ 25 | currency }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <br>
+
+    <ion-button type="submit" expand="block" shape="round" color="primary">
+      Generar reporte
+      <ion-icon name="document" slot="start">
+      </ion-icon>
+    </ion-button>
+  </ion-card>
+
+
+
+
+
 
 </ion-content>
