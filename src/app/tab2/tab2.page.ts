@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NewProductComponent } from '../components/new-product/new-product.component';
 import { VerProductComponent } from '../components/ver-product/ver-product.component';
+import { NewVentaComponent } from '../components/new-venta/new-venta.component';
 
 @Component({
   selector: 'app-tab2',
@@ -16,7 +17,6 @@ export class Tab2Page {
   constructor(
     private modal: ModalController
   ) {}
-  titulo = 'Productos';
 
   onSearchChange(event: any){
     console.log('HOLA');
@@ -27,6 +27,19 @@ export class Tab2Page {
     const md = await this.modal.create({
       component: NewProductComponent,
       mode: 'ios'
+    })
+
+    await md.present();
+
+  }
+
+  async openNewSale(){
+
+    const md = await this.modal.create({
+      component: NewVentaComponent,
+      mode: 'ios',
+      initialBreakpoint: .4,
+      backdropDismiss: false
     })
 
     await md.present();

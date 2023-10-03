@@ -42,7 +42,7 @@ export class Tab1Page {
 
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
-  titulo = 'Sistema de inventario';
+  home = 'Sistema de inventario';
 
 
   constructor() {

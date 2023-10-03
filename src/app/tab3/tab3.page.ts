@@ -7,11 +7,10 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
-  titulo = 'Reportes';
-  onSearchChange(event: any){
+  constructor() { }
+  onSearchChange(event: any) {
     console.log('HOLA');
-    
+
   }
 
 

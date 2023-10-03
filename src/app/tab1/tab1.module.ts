@@ -6,6 +6,7 @@ import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     FormsModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    ComponentsModule
   ],
   declarations: [Tab1Page]
 })
