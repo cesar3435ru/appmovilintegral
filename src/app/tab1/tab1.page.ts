@@ -8,6 +8,8 @@ import {
   ApexXAxis,
   ApexTitleSubtitle
 } from "ng-apexcharts";
+import { ModalController } from '@ionic/angular';
+import { NewCategoriaComponent } from '../components/new-categoria/new-categoria.component';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -45,7 +47,7 @@ export class Tab1Page {
   home = 'Sistema de inventario';
 
 
-  constructor() {
+  constructor(private modal: ModalController) {
     this.chartOptions = {
       series: [
         {
@@ -146,4 +148,16 @@ export class Tab1Page {
 
 
 
+  async openNewCategoria(){
+
+    const md = await this.modal.create({
+      component: NewCategoriaComponent,
+      mode: 'ios',
+      initialBreakpoint: .4,
+      backdropDismiss: false
+    })
+
+    await md.present();
+
+  }
 }

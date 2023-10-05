@@ -1,0 +1,65 @@
+<ion-content>
+  <ion-header>
+    <ion-toolbar>
+
+      <ion-text class="ion-text-center" color="dark">
+        <h3>Nueva categoria</h3>
+      </ion-text>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="closeModal();" fill="clear">
+          <ion-icon slot="icon-only" name="close">
+          </ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+    </ion-toolbar>
+  </ion-header>
+
+
+  <ion-grid>
+    <ion-row>
+
+      <!-- <ion-col size="12">
+        <ion-label>Categoria</ion-label>
+        <input type="text">
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-button type="submit" expand="block" shape="round" color="primary">
+          Registrar
+          <ion-icon name="cloud" slot="start">
+          </ion-icon>
+        </ion-button>
+      </ion-col> -->
+
+      <ion-col size="12">
+        <ion-label>Cantidad* </ion-label>
+        <ion-input fill="outline" placeholder="Cantidad de productos"></ion-input>
+      </ion-col>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>Categoria*</ion-label>
+          <ion-select multiple="false" placeholder="Elige un color">
+            <ion-select-option value="primary">
+              Primary</ion-select-option>
+            <ion-select-option value="warning">
+              Warning</ion-select-option>
+            <ion-select-option value="success">
+              Success</ion-select-option>
+          </ion-select>
+
+        </ion-item>
+      </ion-col>
+
+
+    </ion-row>
+
+    <ion-button expand="block">
+      Crear Venta
+    </ion-button>
+
+
+  </ion-grid>
+
+</ion-content>
