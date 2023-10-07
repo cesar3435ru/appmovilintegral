@@ -1,4 +1,5 @@
 <ion-content>
+
   <ion-header>
     <ion-toolbar>
       <ion-text class="ion-text-center" color="dark">
@@ -15,98 +16,101 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-grid>
+    <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+      <ion-row>
+        <!-- <div *ngIf="showProgressBar" class="progress mt-3">
+          <div class="progress-bar" [style.width.%]="progress" role="progressbar" [attr.aria-valuenow]="progress"
+            aria-valuemin="0" aria-valuemax="100">
+              Este es tu progreso {{ progress }}%
+          </div>
+        </div> -->
+        <ion-col size="12" *ngIf="showProgressBar">
+          <h6 class="ion-text-center">Este es tu progreso {{progress}}</h6>
+          <ion-progress-bar [value]="progress / 100"></ion-progress-bar>
+        </ion-col>
 
-  <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
-    <ion-item>
-      <ion-label position="floating">Nombre del producto*</ion-label>
-      <ion-input type="text" formControlName="nombre" placeholder="Write a product name"></ion-input>
-      <small *ngIf="validarInput('nombre');" class="form-text text-danger">
-        El nombre es requerido
-      </small>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Categoria*</ion-label>
-      <ion-select formControlName="category_id" multiple="false">
-        <ion-select-option *ngFor="let category_id of categories" [value]="category_id">{{
-          category_id}}</ion-select-option>
-      </ion-select>
-      <small *ngIf="validarInput('category_id');" class="form-text text-danger">
-        Selecciona una categoria...
-      </small>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Imagen*</ion-label>
-      <ion-input type="file" formControlName="imagen" placeholder="Write a URL"></ion-input>
-      <small *ngIf="validarInput('imagen');" class="form-text text-danger">
-        La imagen es requerida
-      </small>
-    </ion-item>
+        <ion-col size="12">
+          <ion-input label="Nombre" formControlName="nombre" label-placement="floating" fill="outline" id="nombre-input"
+            placeholder="Escribe el nombre del producto" (change)="updateProgress()"></ion-input>
+          <small *ngIf="validarInput('nombre');" class="form-text text-danger">
+            El nombre es requerido
+          </small>
+        </ion-col>
 
-    <ion-item>
-      <ion-label position="floating">Description*</ion-label>
-      <ion-input type="text" formControlName="descripcion" placeholder="Write a desc"></ion-input>
-      <small *ngIf="validarInput('descripcion');" class="form-text text-danger">
-        La descripcion es requerida
-      </small>
-    </ion-item>
+        <ion-col size="12">
+          <ion-item mode="ios">
+            <ion-select formControlName="category_id" multiple="false" aria-label="Categoria" interface="action-sheet" (ionChange)="updateProgress()"
+              id="category_id-select" placeholder="Selecciona la categoria">
+              <ion-select-option *ngFor="let category_id of categories" [value]="category_id">{{
+                category_id}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <small *ngIf="validarInput('category_id');" class="form-text text-danger">
+            Debes elegir una categoria
+          </small>
+        </ion-col>
 
-    <ion-item>
-      <ion-label position="floating">Codigo del producto*</ion-label>
-      <ion-input type="text" formControlName="codeproduct" placeholder="Write a product code"></ion-input>
-      <small *ngIf="validarInput('codeproduct');" class="form-text text-danger">
-        El codigo es requerido
-      </small>
-    </ion-item>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Precio*</ion-label>
-          <ion-input type="number" placeholder="Write a price" formControlName="precio"></ion-input>
-          <small *ngIf="validarInput('precio');" class="form-text text-danger">
+        <ion-col size="12">
+          <ion-input label="Imagen" type="file" (change)="onFileSelected($event)" accept="image/*" id="imagen-input"
+            formControlName="imagen" label-placement="floating" fill="solid" placeholder="Inserta imagen" (change)="updateProgress()"></ion-input>
+          <small *ngIf="validarInput('imagen');" class="form-text text-danger">
+            La imagen es requerida
+          </small>
+        </ion-col>
+
+        <ion-col size="12">
+          <ion-input label="Codigo" formControlName="codigo" label-placement="floating" fill="outline" id="codigo-input" (change)="updateProgress()"
+            placeholder="Escribe el codigo del producto"></ion-input>
+          <small *ngIf="validarInput('codigo');" class="form-text text-danger">
+            El codigo es requerido
+          </small>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-input label="Precio de compra" type="number" formControlName="precio_adquirido" (change)="updateProgress()"
+            id="precio_adquirido-input" label-placement="floating" fill="outline"
+            placeholder="Inserta precio"></ion-input>
+          <small *ngIf="validarInput('precio_adquirido');" class="form-text text-danger">
             El precio es requerido
           </small>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Stock*</ion-label>
-          <ion-input type="number" placeholder="Write a stock" formControlName="stock"></ion-input>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-input label="Precio de venta" type="number" formControlName="precio_de_venta" label-placement="floating" (change)="updateProgress()"
+            id="precio_de_venta-input" fill="outline" placeholder="Inserta precio"></ion-input>
+          <small *ngIf="validarInput('precio_de_venta');" class="form-text text-danger">
+            El precio es requerido
+          </small>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-input label="Stock de producto" type="number" formControlName="stock" label-placement="floating" (change)="updateProgress()"
+            id="stock-input" fill="outline" placeholder="Inserta unidades"></ion-input>
           <small *ngIf="validarInput('stock');" class="form-text text-danger">
             El stock es requerido
           </small>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+        </ion-col>
 
-
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Adquisicion*</ion-label>
-          <ion-input type="date" placeholder="Escribe la fecha" formControlName="adquisicion"></ion-input>
-          <small *ngIf="validarInput('adquisicion');" class="form-text text-danger">
-            La fecha es requerida
+        <ion-col size="6">
+          <ion-input label="Caducidad" type="date" formControlName="caducidad" label-placement="floating" fill="outline" (change)="updateProgress()"
+            id="caducidad-input" placeholder="Inserta fecha"></ion-input>
+          <small *ngIf="validarInput('caducidad');" class="form-text text-danger">
+            La caducidad es requerida
           </small>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Vencimiento*</ion-label>
-          <ion-input type="date" placeholder="Escribe la fecha" formControlName="vencimiento"></ion-input>
-          <small *ngIf="validarInput('vencimiento');" class="form-text text-danger">
-            La fecha es requerida
-          </small>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+        </ion-col>
 
 
-    <ion-button type="submit" [disabled]="productForm.invalid" expand="block" shape="round" color="primary">
-      Registrar
-      <ion-icon name="cloud" slot="start">
-      </ion-icon>
-    </ion-button>
+      </ion-row>
+      <ion-button mode="ios" type="submit" [disabled]="productForm.invalid" expand="block" shape="round"
+        color="primary">
+        Registrar
+        <ion-icon name="cloud" slot="start">
+        </ion-icon>
+      </ion-button>
+    </form>
+  </ion-grid>
 
 
-  </form>
+
 </ion-content>

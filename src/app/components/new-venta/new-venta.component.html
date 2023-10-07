@@ -20,22 +20,98 @@
   </ion-searchbar>
 
   <ion-grid>
-    <ion-row>
+    <form [formGroup]="ventaForm" (ngSubmit)="saveVenta()">
+      <ion-row>
+        <ion-col size="12" *ngIf="showProgressBar">
+          <h6 class="ion-text-center">Este es tu progreso {{progress}}</h6>
+          <ion-progress-bar [value]="progress / 100"></ion-progress-bar>
+        </ion-col>
 
-      <ion-col size="12">
-        <ion-label>Producto</ion-label>
-        <input type="text">
-      </ion-col>
+        <ion-col size="12">
+          <ion-item mode="ios">
+            <ion-select formControlName="prod_id" multiple="false" aria-label="Producto" interface="action-sheet" (ionChange)="updateProgress()"
+              id="prod_id-select" placeholder="Selecciona el productos">
+              <ion-select-option *ngFor="let prod_id of productos" [value]="prod_id">{{
+                prod_id}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <small *ngIf="validarInput('prod_id');" class="form-text text-danger">
+            Debes elegir un producto
+          </small>
+        </ion-col>
 
-      <ion-col size="12">
-        <ion-button type="submit" expand="block" shape="round" color="primary">
-          Registrar
-          <ion-icon name="cloud" slot="start">
-          </ion-icon>
-        </ion-button>
-      </ion-col>
+        <!-- <ion-col size="12">
+          <ion-searchbar mode="ios" placeholder="Buscar producto" (ionChange)="onSearchChange($event)"></ion-searchbar>
+        
+          <ion-item>
+            <ion-label position="floating">Selecciona un producto:</ion-label>
+            <ion-select formControlName="prod_id" interface="action-sheet" (ionChange)="updateProgress()" placeholder="Selecciona el producto" [(ngModel)]="selectedProductId">
+              <ion-select-option *ngFor="let producto of filteredProductos" [value]="producto.id">{{ producto.nombre }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        
+          <small *ngIf="validarInput('prod_id');" class="form-text text-danger">
+            Debes elegir un producto
+          </small>
+        </ion-col> -->
+        
 
-    </ion-row>
+        <!-- DATALIST HTML <ion-col size="12">
+          <label for="producto">Busca el producto:</label>
+          <input type="text" id="producto" list="productos-list" formControlName="prod_id"
+            (input)="updateProgress()">
+
+          <datalist id="productos-list">
+            <option *ngFor="let prod_id of productos" [value]="prod_id">{{ prod_id }}</option>
+          </datalist>
+
+          <small *ngIf="validarInput('prod_id');" class="form-text text-danger">
+            Debes elegir un producto
+          </small>
+        </ion-col> -->
+        
+
+
+        <ion-col size="6">
+          <ion-input label="Cantidad" type="number" formControlName="cantidad" label-placement="floating"
+            (change)="updateProgress()" id="cantidad-input" fill="outline" placeholder="Cuantas unidades"></ion-input>
+          <small *ngIf="validarInput('cantidad');" class="form-text text-danger">
+            La cantidad es requerida
+          </small>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-input label="Total" type="total" formControlName="total" label-placement="floating"
+            (change)="updateProgress()" id="total-input" fill="outline" placeholder="Total de venta"></ion-input>
+          <small *ngIf="validarInput('total');" class="form-text text-danger">
+            El total es requerido
+          </small>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-input label="Ganancias" type="number" formControlName="ganancias" (change)="updateProgress()"
+            id="ganancias-input" label-placement="floating" fill="outline" placeholder="Inserta ganancia"></ion-input>
+          <small *ngIf="validarInput('ganancias');" class="form-text text-danger">
+            La ganancia es requerida
+          </small>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-input label="Hora" type="datetime-local" formControlName="hora" label-placement="floating" fill="outline"
+            (change)="updateProgress()" id="caducidad-input" placeholder="Inserta fecha y hora"></ion-input>
+          <small *ngIf="validarInput('hora');" class="form-text text-danger">
+            La hora es requerida
+          </small>
+        </ion-col>
+
+
+      </ion-row>
+      <ion-button mode="ios" type="submit" [disabled]="ventaForm.invalid" expand="block" shape="round" color="primary">
+        Registrar
+        <ion-icon name="cloud" slot="start">
+        </ion-icon>
+      </ion-button>
+    </form>
   </ion-grid>
 
 

@@ -26,7 +26,7 @@ export class Tab2Page {
 
     const md = await this.modal.create({
       component: NewProductComponent,
-      mode: 'ios'
+      mode: 'md'
     })
 
     await md.present();
@@ -37,8 +37,8 @@ export class Tab2Page {
 
     const md = await this.modal.create({
       component: NewVentaComponent,
-      mode: 'ios',
-      initialBreakpoint: .4,
+      mode: 'md',
+      initialBreakpoint: .8,
       backdropDismiss: false
     })
 
