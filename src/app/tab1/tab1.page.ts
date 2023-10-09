@@ -153,7 +153,7 @@ export class Tab1Page {
     const md = await this.modal.create({
       component: NewCategoriaComponent,
       mode: 'md',
-      initialBreakpoint: .4,
+      initialBreakpoint: .5,
       backdropDismiss: false
     })
 

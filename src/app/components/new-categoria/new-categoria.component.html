@@ -35,13 +35,13 @@
 
         <ion-col size="12">
           <ion-item mode="ios">
-            <ion-select formControlName="color_id" multiple="false" aria-label="Color" interface="action-sheet" (ionChange)="updateProgress()"
-              id="color_id-select" placeholder="Selecciona el color">
-              <ion-select-option *ngFor="let color_id of colores" [value]="color_id">{{
-                color_id}}</ion-select-option>
+            <ion-select formControlName="color" multiple="false" aria-label="Color" interface="action-sheet" (ionChange)="updateProgress()"
+              id="color-select" placeholder="Selecciona el color">
+              <ion-select-option *ngFor="let color of colores" [value]="color">{{
+                color}}</ion-select-option>
             </ion-select>
           </ion-item>
-          <small *ngIf="validarInput('color_id');" class="form-text text-danger">
+          <small *ngIf="validarInput('color');" class="form-text text-danger">
             Debes elegir un color
           </small>
         </ion-col>

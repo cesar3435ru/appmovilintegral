@@ -11,11 +11,12 @@
 
   <ion-card>
     <ion-row>
-      <ion-col size="4" *ngFor="let cat of categorias">
-        <ion-button class="ion-text-lowercase" expand="block" shape="round">
+      <ion-col size="4" *ngFor="let cat of categories">
+        <ion-button class="ion-text-lowercase" expand="block" shape="round" [color]="cat.color">
           <p>
-            {{ cat. length > 12 ? cat.substr(0,10) + '...' : cat }}
+            {{ cat.nombre.length > 12 ? cat.nombre.substr(0,10) + '...' : cat.nombre }}
           </p>
+          <!-- <p>{{ cat.nombre }}</p> -->
         </ion-button>
       </ion-col>
     </ion-row>

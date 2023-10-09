@@ -7,6 +7,7 @@ import { VerProductComponent } from './ver-product/ver-product.component';
 import { HeaderComponent } from './header/header.component';
 import { NewVentaComponent } from './new-venta/new-venta.component';
 import { NewCategoriaComponent } from './new-categoria/new-categoria.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -19,7 +20,7 @@ import { NewCategoriaComponent } from './new-categoria/new-categoria.component';
     NewCategoriaComponent
   ],
   imports: [
-    CommonModule, IonicModule, FormsModule, ReactiveFormsModule
+    CommonModule, IonicModule, FormsModule, ReactiveFormsModule, HttpClientModule
   ],
   exports: [NewProductComponent, VerProductComponent, HeaderComponent, NewVentaComponent, NewCategoriaComponent]
 })
