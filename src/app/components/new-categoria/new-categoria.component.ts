@@ -19,7 +19,7 @@ export class NewCategoriaComponent implements OnInit {
   showProgressBar = false;
 
 
-  colores = ['primary', 'secondary', 'success', 'warning', 'light', 'danger', 'tertiary', 'tark', 'medium']
+  colores = ['primary', 'secondary', 'success', 'warning', 'light', 'danger', 'tertiary', 'dark', 'medium']
 
 
   ngOnInit() {
@@ -72,7 +72,6 @@ export class NewCategoriaComponent implements OnInit {
         this.showProgressBar = false;
         this.updateProgress();
         this.http.categorySubject.next();
-
       },
       (error) => {
         console.error('Error al enviar datos al backend:', error);
