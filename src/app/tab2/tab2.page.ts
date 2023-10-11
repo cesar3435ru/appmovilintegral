@@ -76,10 +76,6 @@ export class Tab2Page implements OnInit {
     return chunkedArray;
   }
 
-
-  // ngOnDestroy(): void {
-  //   this.categorySubscription.unsubscribe();
-  // }
   async openNewProduct() {
 
     const md = await this.modal.create({

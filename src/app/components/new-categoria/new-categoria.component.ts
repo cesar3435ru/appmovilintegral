@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavController, ToastController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { Options } from 'src/app/interfaces/options';
 import { ConfigService } from 'src/app/services/config.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-new-categoria',
@@ -11,16 +12,19 @@ import { ConfigService } from 'src/app/services/config.service';
 })
 export class NewCategoriaComponent implements OnInit {
 
-  constructor(private modalC: ModalController, private navCtrl: NavController,
-    private formb: FormBuilder, private toastController: ToastController, private http: ConfigService) {
-  }
-
+  constructor(private modalC: ModalController, private formb: FormBuilder, private http: ConfigService, private alertS: ToastService) {}
   progress: number = 0;
   showProgressBar = false;
 
-
   colores = ['primary', 'secondary', 'success', 'warning', 'light', 'danger', 'tertiary', 'dark', 'medium']
 
+  toastOptions: Options = {
+    message: 'Registro exitoso bb',
+    position: 'top',
+    icon: 'cloud-done-outline',
+    color: 'success',
+    duration: 5000
+  };
 
   ngOnInit() {
     this.categoryForm.valueChanges.subscribe(() => {
@@ -68,7 +72,8 @@ export class NewCategoriaComponent implements OnInit {
       (response) => {
         console.log('Respuesta del backend:', response);
         this.categoryForm.reset();
-        this.presentToast('middle');
+        this.alertS.generateToast(this.toastOptions); //Forma uno
+        // this.alertS.mostrarToast('Categoría creada con éxito', 5000, 'top','success', 'checkmark-circle'); //Forma dos
         this.showProgressBar = false;
         this.updateProgress();
         this.http.categorySubject.next();
@@ -79,15 +84,5 @@ export class NewCategoriaComponent implements OnInit {
     );
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Registro exitoso!',
-      duration: 1500,
-      position: position,
-      icon: 'checkmark-done-outline',
-      color: 'success'
-    });
 
-    await toast.present();
-  }
 }
