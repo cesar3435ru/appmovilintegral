@@ -111,7 +111,7 @@ export class Tab1Page {
       precio: 100,
       stock: 10,
       state: true,
-      img: 'https://chedrauimx.vtexassets.com/arquivos/ids/18990294-1600-auto?v=638302163026430000&width=1600&height=auto&aspect=true'
+      img: 'https://m.media-amazon.com/images/I/61LA1giEvNL._AC_UF894,1000_QL80_.jpg'
     },
 
     {
@@ -132,7 +132,7 @@ export class Tab1Page {
       precio: 300,
       stock: 0,
       state: true,
-      img: 'https://chedrauimx.vtexassets.com/arquivos/ids/19701968-1600-auto?v=638315289761330000&width=1600&height=auto&aspect=true'
+      img: 'https://http2.mlstatic.com/D_NQ_NP_881249-MLM47867430793_102021-O.webp'
     },
     {
       id: 4,
@@ -148,7 +148,7 @@ export class Tab1Page {
 
 
 
-  async openNewCategoria(){
+  async openNewCategoria() {
 
     const md = await this.modal.create({
       component: NewCategoriaComponent,

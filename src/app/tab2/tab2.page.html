@@ -22,38 +22,39 @@
     </ion-row>
   </ion-grid>
 
- 
-  <!-- <ion-card>
-    <ion-row *ngFor="let row of groupedCategories; let rowIndex = index">
-      <ion-col size="4" *ngFor="let cat of row; let colIndex = index">
-        <ion-button class="ion-text-lowercase" expand="block" shape="round" [color]="cat.color">
-          <p>
-            {{ cat.nombre.length > 12 ? cat.nombre.substr(0, 10) + '...' : cat.nombre }}
-          </p>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-card> -->
-  
-  <ion-card>
-    <ion-row *ngFor="let row of groupedCategories; let rowIndex = index">
-      <ion-col size="4" *ngFor="let cat of row; let colIndex = index">
-        <ion-button class="ion-text-lowercase" expand="block" shape="round" [color]="cat.color">
-          <p>
-            {{ cat.nombre.length > 12 ? cat.nombre.substr(0, 10) + '...' : cat.nombre }}
-          </p>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-button expand="block" shape="round" (click)="toggleShowAll()" color="">
-      {{ showAll ? 'Mostrar Menos' : 'Mostrar Todas' }}
-    </ion-button>
-  </ion-card>
-  
-  
 
-  
-  
+  <ion-card>
+     <ion-card-header class="ion-no-padding">
+      <ion-item lines="none">
+       <ion-button *ngIf="vermas" slot="end" fill="clear" class="ion-no-padding" (click)="verMas()">
+         <ion-icon name="chevron-down-outline"></ion-icon>
+       </ion-button>
+       <ion-button *ngIf="!vermas" slot="end" fill="clear" class="ion-no-padding" (click)="verMenos()">
+        <ion-icon name="chevron-up-outline"></ion-icon>
+      </ion-button>
+      </ion-item>
+     </ion-card-header>
+    <ion-row>
+      <ion-col size="4" *ngFor="let cat of categories">
+        <ion-button class="ion-text-uppercase" expand="block" shape="round" [color]="cat.color">
+          <p>
+            {{ cat.nombre.length > 12 ? cat.nombre.substr(0, 10) + '...' : cat.nombre }}
+          </p>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-col class="ion-text-center ion-padding" size="12">
+          <ion-text color="primary" *ngIf="!categories.length">
+            <h3>Aun no hay ninguna categoria</h3>
+          </ion-text>
+        </ion-col>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
 
   <ion-grid>
     <ion-row>

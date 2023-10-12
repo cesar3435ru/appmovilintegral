@@ -15,6 +15,8 @@ export class Tab2Page implements OnInit {
 
 
   categories: any[] = [];
+  respaldocategories: any[] = [];
+  vermas = true;
 
   constructor(
     private modal: ModalController,
@@ -23,6 +25,13 @@ export class Tab2Page implements OnInit {
     this.http.getCategoryObservable().subscribe(() => {
       this.loadCategories();
     });
+    //Agrega la nueva categoria
+    // this.http.getNewCategory.subscribe(category => {
+    //   if(category){
+    //     // this.loadCategories();
+    //     this.categories.push(category)
+    //   }
+    // })
   }
 
   onSearchChange(event: any) {
@@ -30,50 +39,28 @@ export class Tab2Page implements OnInit {
 
   }
 
-  // ngOnInit(): void {
-  //   this.loadCategories();
-  // }
-
-  
-
-  // loadCategories() {
-  //   this.http.listOfCategories().subscribe((data: any) => {
-  //     this.categories = data
-  //     console.log('mi data', this.categories);
-  //   });
-  // }
-
-  groupedCategories: any[] = [];
-  showAll = false;
-
-
   ngOnInit(): void {
     this.loadCategories();
   }
 
+
+
   loadCategories() {
     this.http.listOfCategories().subscribe((data: any) => {
-      this.categories = data;
-      console.log('mi data', this.categories);
-      this.groupedCategories = this.chunkCategories(this.categories, 3).slice(0, 2); // Limita a 2 filas de 3 botones
+      this.categories = data
+      this.respaldocategories = data;
+      this.categories = this.categories.slice(0, 6);
+      console.log('My six categories', this.categories);
+      console.log('All categories', this.respaldocategories);
     });
   }
-
-  toggleShowAll() {
-    this.showAll = !this.showAll;
-    if (this.showAll) {
-      this.groupedCategories = this.chunkCategories(this.categories, 3); // Muestra todas las categorías
-    } else {
-      this.groupedCategories = this.chunkCategories(this.categories, 3).slice(0, 2); // Limita a 2 filas de 3 botones
-    }
+  verMas() {
+    this.vermas = false;
+    this.categories = this.respaldocategories;
   }
-
-  chunkCategories(arr: any[], size: number): any[] {
-    const chunkedArray = [];
-    for (let i = 0; i < arr.length; i += size) {
-      chunkedArray.push(arr.slice(i, i + size));
-    }
-    return chunkedArray;
+  verMenos() {
+    this.vermas = true;
+    this.categories = this.categories.slice(0, 6);
   }
 
   async openNewProduct() {
@@ -111,7 +98,7 @@ export class Tab2Page implements OnInit {
 
   }
 
-  async openNewCategoria(){
+  async openNewCategoria() {
 
     const md = await this.modal.create({
       component: NewCategoriaComponent,

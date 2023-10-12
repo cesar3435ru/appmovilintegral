@@ -70,6 +70,8 @@ export class NewCategoriaComponent implements OnInit {
 
     this.http.addCategory(formData).subscribe(
       (response) => {
+        // this.http.setNewCategory(response); //Set el emitter
+
         console.log('Respuesta del backend:', response);
         this.categoryForm.reset();
         this.alertS.generateToast(this.toastOptions); //Forma uno
