@@ -40,19 +40,19 @@
 
         <ion-col size="12">
           <ion-item mode="ios">
-            <ion-select formControlName="category_id" multiple="false" aria-label="Categoria" interface="action-sheet" (ionChange)="updateProgress()"
+            <ion-select formControlName="cat_id" multiple="false" aria-label="Categoria" interface="action-sheet" (ionChange)="updateProgress()"
               id="category_id-select" placeholder="Selecciona la categoria">
-              <ion-select-option *ngFor="let category_id of categories" [value]="category_id">{{
-                category_id}}</ion-select-option>
+              <ion-select-option *ngFor="let cat of mycategories" [value]="cat.id">{{
+                cat.nombre}}</ion-select-option>
             </ion-select>
           </ion-item>
-          <small *ngIf="validarInput('category_id');" class="form-text text-danger">
+          <small *ngIf="validarInput('cat_id');" class="form-text text-danger">
             Debes elegir una categoria
           </small>
         </ion-col>
 
         <ion-col size="12">
-          <ion-input label="Imagen" type="file" (change)="onFileSelected($event)" accept="image/*" id="imagen-input"
+          <ion-input label="Imagen" type="file" (change)="onFileSelected($event)" id="imagen-input" accept="image/jpeg, image/png"
             formControlName="imagen" label-placement="floating" fill="solid" placeholder="Inserta imagen" (change)="updateProgress()"></ion-input>
           <small *ngIf="validarInput('imagen');" class="form-text text-danger">
             La imagen es requerida

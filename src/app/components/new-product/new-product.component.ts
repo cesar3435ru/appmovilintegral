@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProductService } from 'src/app/services/product.service';
+import { ConfigService } from 'src/app/services/config.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-new-product',
@@ -10,7 +13,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NewProductComponent implements OnInit {
 
   constructor(private modalC: ModalController, private navCtrl: NavController,
-    private formb: FormBuilder, private toastController: ToastController) { }
+    private formb: FormBuilder, private toastController: ToastController, private product: ProductService, private category: ConfigService, private alert: ToastService) { }
+
+  mycategories: any[] = [];
+  selectedFile: File | null = null;
 
   progress: number = 0;
   showProgressBar = false;
@@ -19,16 +25,23 @@ export class NewProductComponent implements OnInit {
     this.productForm.valueChanges.subscribe(() => {
       this.showProgressBar = true;
     });
-   }
+    this.getCategories();
+  }
 
-   updateProgress() {
+  getCategories() {
+    this.category.listOfCategories().subscribe((data: any) => {
+      this.mycategories = data
+      console.log('All categories', this.mycategories);
+    });
+  }
+
+
+
+  updateProgress() {
     const totalFields = 8;
     const completedFields = Object.values(this.productForm.controls).filter(control => control.valid).length;
     this.progress = (completedFields / totalFields) * 100;
   }
-
-  selectedFile: File | null = null;
-
 
   onFileSelected(event: any) {
     const fileInput = event.target;
@@ -45,7 +58,6 @@ export class NewProductComponent implements OnInit {
     }
   }
 
-  categories = ['Abarrotes', 'Limpieza', 'Golosinas', 'Vinos y licores', 'Frutas y verduras', 'Panaderia']
 
   async closeModal() {
     await this.modalC.dismiss();
@@ -57,7 +69,7 @@ export class NewProductComponent implements OnInit {
     codigo: ['', [Validators.required, Validators.maxLength(5), Validators.minLength(5)]],
     precio_adquirido: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
     precio_de_venta: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
-    category_id: ['', [Validators.required]],
+    cat_id: ['', [Validators.required]],
     stock: [null, [Validators.required, Validators.min(1), Validators.max(1000)]],
     imagen: ['', Validators.required],
     caducidad: ['', Validators.required],
@@ -70,14 +82,53 @@ export class NewProductComponent implements OnInit {
     return this.productForm.controls[campo].errors && this.productForm.controls[campo].touched
   }
 
+  // saveProduct() {
+  //   if (this.productForm.valid) {
+  //     console.log(this.productForm.value);
+  //     this.productForm.reset();
+  //     this.presentToast('middle');
+  //     this.showProgressBar = false;
+  //     this.updateProgress();
+  //   }
+  // }
+
   saveProduct() {
-    if (this.productForm.valid) {
-      console.log(this.productForm.value);
-      this.productForm.reset();
-      this.presentToast('middle');
-      this.showProgressBar = false;
-      this.updateProgress();
+    if(this.productForm.invalid) return
+    // Crear un objeto FormData para agrupar los datos
+    const formData = new FormData();
+
+    //Agrega los datos del form
+    formData.append('nombre', this.productForm.get('nombre')?.value);
+    formData.append('codigo', this.productForm.get('codigo')?.value);
+    formData.append('caducidad', this.productForm.get('caducidad')?.value);
+    formData.append('stock', this.productForm.get('stock')?.value);
+    formData.append('cat_id', this.productForm.get('cat_id')?.value);
+    formData.append('precio_de_venta', this.productForm.get('precio_de_venta')?.value);
+    formData.append('precio_adquirido', this.productForm.get('precio_adquirido')?.value);
+
+    // Agregar el archivo IMG al FormData, si hay un archivo seleccionado
+    if (this.selectedFile) {
+      formData.append('imagen', this.selectedFile, this.selectedFile.name);
     }
+
+    // Enviar el formData al backend utilizando HttpClient (por ejemplo, mediante el servicio UserService)
+    this.product.addProduct(formData).subscribe(
+      (response) => {
+        // Procesar la respuesta del backend si es necesario
+        console.log('Respuesta del backend:', response);
+        this.alert.mostrarToast('Categoría creada con éxito', 5000, 'top', 'success', 'checkmark-circle');
+      },
+      (error) => {
+        // Manejar el error si la solicitud falla
+        console.error('Error al enviar datos al backend:', error);
+      }
+    );
+
+    // Restablecer el formulario después de enviar los datos
+    this.productForm.reset();
+    this.showProgressBar = false;
+    this.updateProgress(); // Actualizar progreso después de guardar
+    this.selectedFile = null; // Reiniciar la variable del archivo seleccionado
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {
