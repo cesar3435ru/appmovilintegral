@@ -25,6 +25,7 @@
     "apexcharts": "^3.42.0",
     "ionicons": "^7.0.0",
     "ng-apexcharts": "^1.8.0",
+    "ngx-image-compress": "^15.1.6",
     "rxjs": "~7.8.0",
     "swiper": "^10.3.0",
     "tslib": "^2.3.0",

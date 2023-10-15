@@ -19,12 +19,6 @@
   <ion-grid>
     <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
       <ion-row>
-        <!-- <div *ngIf="showProgressBar" class="progress mt-3">
-          <div class="progress-bar" [style.width.%]="progress" role="progressbar" [attr.aria-valuenow]="progress"
-            aria-valuemin="0" aria-valuemax="100">
-              Este es tu progreso {{ progress }}%
-          </div>
-        </div> -->
         <ion-col size="12" *ngIf="showProgressBar">
           <h6 class="ion-text-center">Este es tu progreso {{progress}}</h6>
           <ion-progress-bar [value]="progress / 100"></ion-progress-bar>

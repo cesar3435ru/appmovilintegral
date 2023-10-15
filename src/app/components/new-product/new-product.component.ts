@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController, ToastController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
 import { ConfigService } from 'src/app/services/config.service';
@@ -13,7 +13,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class NewProductComponent implements OnInit {
 
   constructor(private modalC: ModalController, private navCtrl: NavController,
-    private formb: FormBuilder, private toastController: ToastController, private product: ProductService, private category: ConfigService, private alert: ToastService) { }
+    private formb: FormBuilder, private product: ProductService, private category: ConfigService, private alert: ToastService) { }
 
   mycategories: any[] = [];
   selectedFile: File | null = null;
@@ -93,19 +93,17 @@ export class NewProductComponent implements OnInit {
   // }
 
   saveProduct() {
-    if(this.productForm.invalid) return
+    if (this.productForm.invalid) return
     // Crear un objeto FormData para agrupar los datos
     const formData = new FormData();
 
-    //Agrega los datos del form
-    formData.append('nombre', this.productForm.get('nombre')?.value);
-    formData.append('codigo', this.productForm.get('codigo')?.value);
-    formData.append('caducidad', this.productForm.get('caducidad')?.value);
-    formData.append('stock', this.productForm.get('stock')?.value);
-    formData.append('cat_id', this.productForm.get('cat_id')?.value);
-    formData.append('precio_de_venta', this.productForm.get('precio_de_venta')?.value);
-    formData.append('precio_adquirido', this.productForm.get('precio_adquirido')?.value);
-
+    // Agregar los campos de texto del formulario al FormData
+    const data = this.productForm.getRawValue(); // Obtener los valores del formulario
+    for (const dataKey in data) { // Recorrer los campos del formulario
+      if (dataKey !== 'imagen') { // Excluir el campo de la imagen
+        formData.append(dataKey, data[dataKey]); // Agregar otros campos al FormData
+      }
+    }
     // Agregar el archivo IMG al FormData, si hay un archivo seleccionado
     if (this.selectedFile) {
       formData.append('imagen', this.selectedFile, this.selectedFile.name);
@@ -115,33 +113,27 @@ export class NewProductComponent implements OnInit {
     this.product.addProduct(formData).subscribe(
       (response) => {
         // Procesar la respuesta del backend si es necesario
-        console.log('Respuesta del backend:', response);
-        this.alert.mostrarToast('Categoría creada con éxito', 5000, 'top', 'success', 'checkmark-circle');
+        console.log('Peticion exitosa:', response);
+        this.alert.mostrarToast('Producto creado con éxito', 5000, 'top', 'success', 'checkmark-circle');
+        // Restablecer el formulario después de enviar los datos
+        this.productForm.reset();
+        this.showProgressBar = false;
+        this.updateProgress(); // Actualizar progreso después de guardar
+        this.selectedFile = null; // Reiniciar la variable del archivo seleccionado
+
       },
       (error) => {
         // Manejar el error si la solicitud falla
         console.error('Error al enviar datos al backend:', error);
+        this.alert.mostrarToast('Error de registro', 5000, 'top', 'danger', 'close-circle-outline');
+        this.productForm.reset();
+        this.showProgressBar = false;
+        this.updateProgress(); // Actualizar progreso después de guardar
+        this.selectedFile = null; // Reiniciar la variable del archivo seleccionado
       }
     );
-
-    // Restablecer el formulario después de enviar los datos
-    this.productForm.reset();
-    this.showProgressBar = false;
-    this.updateProgress(); // Actualizar progreso después de guardar
-    this.selectedFile = null; // Reiniciar la variable del archivo seleccionado
   }
-
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Registro exitoso!',
-      duration: 1500,
-      position: position,
-      icon: 'checkmark-done-outline',
-      color: 'success'
-    });
-
-    await toast.present();
-  }
+  
 
 }
 

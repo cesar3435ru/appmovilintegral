@@ -5,6 +5,7 @@ import { VerProductComponent } from '../components/ver-product/ver-product.compo
 import { NewVentaComponent } from '../components/new-venta/new-venta.component';
 import { ConfigService } from '../services/config.service';
 import { NewCategoriaComponent } from '../components/new-categoria/new-categoria.component';
+import { AddProductoComponent } from '../components/add-producto/add-producto.component';
 
 @Component({
   selector: 'app-tab2',
@@ -68,6 +69,16 @@ export class Tab2Page implements OnInit {
     const md = await this.modal.create({
       component: NewProductComponent,
       mode: 'md'
+    })
+
+    await md.present();
+
+  }
+  async abrirFProducto() {
+
+    const md = await this.modal.create({
+      component: AddProductoComponent,
+      mode: 'ios'
     })
 
     await md.present();

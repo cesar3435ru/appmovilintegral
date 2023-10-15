@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { NewVentaComponent } from './new-venta/new-venta.component';
 import { NewCategoriaComponent } from './new-categoria/new-categoria.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AddProductoComponent } from './add-producto/add-producto.component';
 
 
 
@@ -17,11 +18,12 @@ import { HttpClientModule } from '@angular/common/http';
     VerProductComponent,
     HeaderComponent,
     NewVentaComponent,
-    NewCategoriaComponent
+    NewCategoriaComponent,
+    AddProductoComponent
   ],
   imports: [
     CommonModule, IonicModule, FormsModule, ReactiveFormsModule, HttpClientModule
   ],
-  exports: [NewProductComponent, VerProductComponent, HeaderComponent, NewVentaComponent, NewCategoriaComponent]
+  exports: [NewProductComponent, VerProductComponent, HeaderComponent, NewVentaComponent, NewCategoriaComponent, AddProductoComponent]
 })
 export class ComponentsModule { }
