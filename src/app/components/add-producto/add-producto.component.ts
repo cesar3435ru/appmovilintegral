@@ -9,9 +9,9 @@ import { ProductService } from 'src/app/services/product.service';
   templateUrl: './add-producto.component.html',
   styleUrls: ['./add-producto.component.scss'],
 })
-export class AddProductoComponent  implements OnInit {
+export class AddProductoComponent implements OnInit {
 
- 
+
 
   imgProduct = '../../assets/upload.png';
   currentFile?: any[] = [];
@@ -42,28 +42,6 @@ export class AddProductoComponent  implements OnInit {
   async close() {
     await this.modalCtrl.dismiss();
   }
-
-  submit() {
-    if (this.formProduct.invalid) return  //sino cumple con las validaciones regresa
-    const formdata = new FormData(); //form data creacion 
-    let data = this.formProduct.getRawValue(); //obtenemos la info en data
-    for (const dataKey in data) { //en el for va uno por uno en los atributos de data
-      formdata.append(dataKey, JSON.stringify(data[dataKey]));
-    }
-
-    if (this.currentFile) {
-      formdata.append('imagen', this.currentFile[0]);
-    }
-
-    this.productS.addProduct(formdata).subscribe(resp => {
-      console.log(resp);
-    }, (error: any) => {
-      console.error("Error en la solicitud:", error);
-    });
-
-  }
-
-  categorias = ['Abarrotes', 'Frutas y verduras', 'Limpieza', 'Vinos y licores', 'Especies', 'Golosinas']
 
   imageProduct(ev: any) {
     console.log(ev);
@@ -107,5 +85,29 @@ export class AddProductoComponent  implements OnInit {
     }
     return new Blob([ab], { type: mimeString })
   }
+
+  guardar() {
+    if (this.formProduct.invalid) return  //sino cumple con las validaciones regresa
+    const formdata = new FormData(); //form data creacion 
+    let data = this.formProduct.getRawValue(); //obtenemos la info en data
+    for (const dataKey in data) { //en el for va uno por uno en los atributos de data
+      formdata.append(dataKey, data[dataKey]);
+    }
+
+    if (this.currentFile) {
+      formdata.append('imagen', this.currentFile[0]);
+    }
+
+    this.productS.addProduct(formdata).subscribe(resp => {
+      console.log(resp);
+    }, (error: any) => {
+      console.error("Error en la solicitud:", error);
+    });
+
+  }
+
+  categorias = ['Abarrotes', 'Frutas y verduras', 'Limpieza', 'Vinos y licores', 'Especies', 'Golosinas']
+
+ 
 
 }

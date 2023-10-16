@@ -86,13 +86,14 @@
 
   <ion-card>
     <ion-list>
-      <ion-item lines="full" *ngFor="let x of [1,1,1,1,1,1,1]">
+      <ion-item lines="full" *ngFor="let p of products">
         <ion-thumbnail slot="start" (click)="viewProduct();">
-          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+          <img alt="Silhouette of mountains" [src]="p.imagen" />
         </ion-thumbnail>
-        <ion-label>Chetos
-          <p><b>Stock:</b>120</p>
-          <p><b>Precio: </b>{{ 19 | currency }}</p>
+        <ion-label>{{p.nombre}}
+          <p><b>Stock:</b>{{p.stock}}</p>
+          <p><b>Precio: </b>{{p.precio_de_venta | currency}}
+          </p>
         </ion-label>
         <ion-button fill="clear" (click)="editProduct();">
           <ion-icon color="primary" name="create" slot="icon-only"></ion-icon>

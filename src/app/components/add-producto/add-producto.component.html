@@ -11,7 +11,7 @@
   </ion-header>
 
   <ion-card>
-    <form (ngSubmit)="submit()" [formGroup]="formProduct">
+    <form (ngSubmit)="guardar()" [formGroup]="formProduct">
       <ion-grid>
         <ion-row>
 
@@ -32,7 +32,7 @@
           <ion-col size="6">
 
             <ion-item>
-              <ion-label position="floating">Precio</ion-label>
+              <ion-label position="floating">Precio adquirido</ion-label>
               <ion-input type="number"required placeholder="$" formControlName="precio_adquirido"></ion-input>
             </ion-item>
 
@@ -57,7 +57,7 @@
 
             <ion-item>
               <ion-label position="floating">Categoría</ion-label>
-              <ion-select required formControlName="cat_id" value="">
+              <ion-select required formControlName="cat_id" value="1">
                 <ion-select-option *ngFor="let cat of categorias">{{cat}}</ion-select-option>
               </ion-select>
             </ion-item>

@@ -6,6 +6,8 @@ import { NewVentaComponent } from '../components/new-venta/new-venta.component';
 import { ConfigService } from '../services/config.service';
 import { NewCategoriaComponent } from '../components/new-categoria/new-categoria.component';
 import { AddProductoComponent } from '../components/add-producto/add-producto.component';
+import { ProductService } from '../services/product.service';
+
 
 @Component({
   selector: 'app-tab2',
@@ -16,12 +18,14 @@ export class Tab2Page implements OnInit {
 
 
   categories: any[] = [];
+  products: any[] = [];
   respaldocategories: any[] = [];
   vermas = true;
 
   constructor(
     private modal: ModalController,
-    private http: ConfigService
+    private http: ConfigService,
+    private productS: ProductService
   ) {
     this.http.getCategoryObservable().subscribe(() => {
       this.loadCategories();
@@ -33,6 +37,14 @@ export class Tab2Page implements OnInit {
     //     this.categories.push(category)
     //   }
     // })
+    this.productS.getNewProduct.subscribe(product => {
+      if(product){
+        this.products.push(product)
+        this.getProducts();
+      }
+    })
+    this.getProducts();
+    this.loadCategories();
   }
 
   onSearchChange(event: any) {
@@ -41,9 +53,16 @@ export class Tab2Page implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadCategories();
   }
 
+
+  getProducts() {
+    this.productS.getProducts().subscribe((resp: any) => {
+      this.products = resp;
+      console.log('Mis productos', this.products);
+    });
+  }
+  
 
 
   loadCategories() {

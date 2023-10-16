@@ -28,6 +28,10 @@ export class ProductService {
     return this.http.post(this.url + '/api/addproduct', formData);
   }
 
+  getProducts(){
+    return this.http.get(this.url + '/api/products');
+  }
+
  
 
   //Coloca el producto

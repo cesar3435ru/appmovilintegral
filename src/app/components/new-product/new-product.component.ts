@@ -66,7 +66,6 @@ export class NewProductComponent implements OnInit {
 
   productForm: FormGroup = this.formb.group({
     nombre: ['', [Validators.required, Validators.maxLength(20)]],
-    codigo: ['', [Validators.required, Validators.maxLength(5), Validators.minLength(5)]],
     precio_adquirido: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
     precio_de_venta: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
     cat_id: ['', [Validators.required]],
@@ -112,7 +111,7 @@ export class NewProductComponent implements OnInit {
     // Enviar el formData al backend utilizando HttpClient (por ejemplo, mediante el servicio UserService)
     this.product.addProduct(formData).subscribe(
       (response) => {
-        // Procesar la respuesta del backend si es necesario
+        this.product.setNewProduct(response); //Set el emitter
         console.log('Peticion exitosa:', response);
         this.alert.mostrarToast('Producto creado con éxito', 5000, 'top', 'success', 'checkmark-circle');
         // Restablecer el formulario después de enviar los datos
