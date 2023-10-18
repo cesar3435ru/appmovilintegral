@@ -116,6 +116,7 @@ export class NewProductComponent implements OnInit {
         this.alert.mostrarToast('Producto creado con éxito', 5000, 'top', 'success', 'checkmark-circle');
         // Restablecer el formulario después de enviar los datos
         this.productForm.reset();
+        this.closeModal();
         this.showProgressBar = false;
         this.updateProgress(); // Actualizar progreso después de guardar
         this.selectedFile = null; // Reiniciar la variable del archivo seleccionado

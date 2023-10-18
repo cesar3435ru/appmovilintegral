@@ -7,3 +7,9 @@ ion-img {
     width: 100px !important;
     height: 100px !important;  
 }
+
+ion-input, ion-select {
+    border: 1px solid rgb(0, 179, 255);
+    border-radius: 8px;
+    padding: 3px !important;
+  }

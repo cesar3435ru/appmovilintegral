@@ -1,78 +1,117 @@
 <ion-content>
   <ion-header>
-    <ion-toolbar color="primary" class="ion-text-center">
-      <ion-label><b>Agregar Producto</b></ion-label>
+    <ion-toolbar>
+
+      <ion-text class="ion-text-center" color="dark">
+        <h3>Nuevo producto </h3>
+      </ion-text>
+
       <ion-buttons slot="end">
         <ion-button (click)="close()" fill="clear">
-          <ion-icon slot="icon-only" name="close"></ion-icon>
-        </ion-button>
+          <ion-icon  slot="icon-only" name="close"></ion-icon>
+         </ion-button>
       </ion-buttons>
+
     </ion-toolbar>
+
+
   </ion-header>
 
-  <ion-card>
-    <form (ngSubmit)="guardar()" [formGroup]="formProduct">
-      <ion-grid>
-        <ion-row>
+  <ion-grid fixed>
+    <form [formGroup]="formProduct"  (ngSubmit)="submit()">
+    <ion-row>
 
-          <ion-col size="2" offset="5"> <!--EL OFFSET EMPUJA DE AMBOS LADOS-->
-            <ion-img id="imgProd" #picture [src]="imgProduct" (click)="imageProduct($event)">
-            </ion-img>
-          </ion-col>
+      <ion-col size="2" offset="5" >
+        <ion-img
+         id="imgProd" #itemPicture (click)="imageProduct($event)" [src]="imgProduct">
+        </ion-img>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-label >Nombre</ion-label>
+       <ion-input
+          formControlName="nombre"
+          fill="outline"
+          placeholder=" Nombre de producto"></ion-input>
+          <small *ngIf="validaCtrl('nombre')"
+          style="color: red;"
+          >
+            El nombre es obligatorio </small>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+
+      <ion-col size="12">
+          <ion-label>Categoria</ion-label>
+          <ion-select type="number" formControlName="cat_id"
+           [value]="categorias[0]?.id" placeholder="Selecciona una gategoria">
+            <ion-select-option *ngFor="let cat of categorias" [value]="cat.id">
+              {{cat.nombre}}
+            </ion-select-option>
+
+          </ion-select>
+          <small *ngIf="validaCtrl('cat_id')"
+          style="color: red;"
+          >
+            Elije una categoria es obligatorio </small>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-label >Precio de adquisicion</ion-label>
+        <ion-input
+        formControlName="precio_adquirido"
+        type="number"
+           fill="outline"
+           placeholder=" Precio"></ion-input>
+           <small *ngIf="validaCtrl('precio_adquirido')"
+           style="color: red;"
+           >
+             El precio adquirido es obligatorio </small>
+      </ion-col>
+      <ion-col size="6">
+        <ion-label >Stock</ion-label>
+        <ion-input
+        formControlName="stock"
+        type="number"
+           fill="outline"
+           placeholder=" Stock"></ion-input>
+           <small *ngIf="validaCtrl('stock')"
+           style="color: red;"
+           >
+             El Stock es obligatorio </small>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-label >Precio de venta</ion-label>
+        <ion-input
+          formControlName="precio_de_venta"
+          type="number"
+           fill="outline"
+           placeholder=" precio venta"></ion-input>
+           <small *ngIf="validaCtrl('precio_de_venta')"
+           style="color: red;"
+           >
+             El precio de venta es obligatorio </small>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label >Fecha de vencimiento</ion-label>
+        <ion-input
+        formControlName="caducidad"
+        type="date"
+           fill="outline"
+           placeholder=" Vencimiento"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-button type="submit"  expand="block"  >
+     Guardar
+    </ion-button>
+
+  </form>
+  </ion-grid>
 
 
-          <ion-col size="12">
-            <ion-item>
-              <ion-label position="floating">Nombre</ion-label>
-              <ion-input type="text" required formControlName="nombre"></ion-input>
-            </ion-item>
-          </ion-col>
-
-          <!-- Columna 1 -->
-          <ion-col size="6">
-
-            <ion-item>
-              <ion-label position="floating">Precio adquirido</ion-label>
-              <ion-input type="number"required placeholder="$" formControlName="precio_adquirido"></ion-input>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Código</ion-label>
-              <ion-input type="text" required placeholder="nnnn-nnnn-nnnn" formControlName="codigo"></ion-input>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="stacked">Precio venta</ion-label>
-              <ion-input type="number" formControlName="precio_de_venta"></ion-input>
-            </ion-item>
-          </ion-col>
-
-          <!-- Columna 2 -->
-          <ion-col size="6">
-
-            <ion-item>
-              <ion-label position="floating">Stock</ion-label>
-              <ion-input type="number" required placeholder="0" formControlName="stock"></ion-input>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Categoría</ion-label>
-              <ion-select required formControlName="cat_id" value="1">
-                <ion-select-option *ngFor="let cat of categorias">{{cat}}</ion-select-option>
-              </ion-select>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="stacked">Fecha de Vencimiento</ion-label>
-              <ion-input type="date" formControlName="caducidad" required></ion-input>
-            </ion-item>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-
-      <ion-button type="submit" color="primary" expand="block">Guardar</ion-button>
-    </form>
-  </ion-card>
 
 </ion-content>
