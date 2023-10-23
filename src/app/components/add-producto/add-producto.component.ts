@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ConfigService } from 'src/app/services/config.service';
 import { ProductService } from 'src/app/services/product.service';
+import { validarPrecio } from 'src/app/validators/precio.validator';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class AddProductoComponent implements OnInit {
       Validators.maxLength(50),
       Validators.minLength(10)]],
       precio_adquirido: [0, Validators.required],
-      precio_de_venta: [0, Validators.required],
+      precio_de_venta: [0, [Validators.required, validarPrecio]],
       stock: [0, Validators.required],
       caducidad: ["", Validators.required],
       imagen: [""],
@@ -37,6 +38,9 @@ export class AddProductoComponent implements OnInit {
     });
 
 
+  }
+  validarMonto(){
+    return !!this.formProduct?.errors?.['ErrorPrecio']
   }
 
 

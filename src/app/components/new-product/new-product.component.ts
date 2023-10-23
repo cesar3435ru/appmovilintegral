@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { validarPrecio } from 'src/app/validators/precio.validator';
+import { CustomValidators } from 'src/app/validators/comparar.validator';
 
 @Component({
   selector: 'app-new-product',
@@ -38,7 +40,7 @@ export class NewProductComponent implements OnInit {
 
 
   updateProgress() {
-    const totalFields = 8;
+    const totalFields = 7;
     const completedFields = Object.values(this.productForm.controls).filter(control => control.valid).length;
     this.progress = (completedFields / totalFields) * 100;
   }
@@ -73,9 +75,14 @@ export class NewProductComponent implements OnInit {
     imagen: ['', Validators.required],
     caducidad: ['', Validators.required],
 
-  })
-
-
+  },
+    { validators: CustomValidators.preciosComparar }
+  )
+  // { validators: validarPrecio }, 
+  
+  validarMonto() {
+    return !!this.productForm?.errors?.['ErrorPrecio']
+  }
 
   validarInput(campo: string) {
     return this.productForm.controls[campo].errors && this.productForm.controls[campo].touched
@@ -133,7 +140,7 @@ export class NewProductComponent implements OnInit {
       }
     );
   }
-  
+
 
 }
 
