@@ -22,6 +22,10 @@ export class NewProductComponent implements OnInit {
 
   progress: number = 0;
   showProgressBar = false;
+  requiresCaducidad: boolean = false;
+  mostrarIcono = 'add'; // Icono a mostrar cuando se va a mostrar el campo de caducidad
+  ocultarIcono = 'eye-off-outline';
+
 
   ngOnInit() {
     this.productForm.valueChanges.subscribe(() => {
@@ -71,21 +75,23 @@ export class NewProductComponent implements OnInit {
     precio_adquirido: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
     precio_de_venta: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
     cat_id: ['', [Validators.required]],
-    stock: [null, [Validators.required, Validators.min(1), Validators.max(1000)]],
+    stock: [null, Validators.required],
     imagen: ['', Validators.required],
-    caducidad: ['', Validators.required],
+    caducidad: [''], //Este campo es opcional
 
   },
-    { validators: CustomValidators.preciosComparar }
-  )
-  // { validators: validarPrecio }, 
-  
-  validarMonto() {
-    return !!this.productForm?.errors?.['ErrorPrecio']
-  }
+    // { validators: CustomValidators.preciosComparar }
+    { validators: Validators.compose([CustomValidators.preciosComparar, CustomValidators.stockValido]) }
+
+  );
 
   validarInput(campo: string) {
     return this.productForm.controls[campo].errors && this.productForm.controls[campo].touched
+  }
+
+
+  toggleCaducidadInput() {
+    this.requiresCaducidad = !this.requiresCaducidad;
   }
 
   // saveProduct() {

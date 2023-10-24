@@ -35,11 +35,12 @@ export class AddProductoComponent implements OnInit {
       caducidad: ["", Validators.required],
       imagen: [""],
       cat_id: [0, Validators.required],
-    });
-
-
+    },
+      { validators: validarPrecio },
+    );
   }
-  validarMonto(){
+
+  validarMonto() {
     return !!this.formProduct?.errors?.['ErrorPrecio']
   }
 

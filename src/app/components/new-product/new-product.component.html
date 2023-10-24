@@ -69,11 +69,10 @@
           <small *ngIf="validarInput('precio_de_venta');" class="form-text text-danger">
             El precio es requerido
           </small>
-          <!-- <small *ngIf="validarMonto();" style="color: red;">
-            El precio de venta debe ser mayor. </small> -->
-          <!-- <div *ngIf="this.productForm.get('precioCompra')?.dirty && this.productForm.hasError('preciosComparar')"
-            class="error-message" class="form-text text-danger">El precio debe ser mayor.</div> -->
-            
+          <small *ngIf="productForm.hasError('preciosComparar')" class="form-text text-danger">
+            El precio debe ser mayor al de compra
+          </small>
+
         </ion-col>
 
         <ion-col size="6">
@@ -82,13 +81,24 @@
           <small *ngIf="validarInput('stock');" class="form-text text-danger">
             El stock es requerido
           </small>
+          <small *ngIf="productForm.hasError('stockValido') && productForm.get('stock')?.touched"
+            class="form-text text-danger">
+            {{ productForm.getError('stockValido') }}
+          </small>
         </ion-col>
 
         <ion-col size="6">
-          <ion-input label="Caducidad" type="date" formControlName="caducidad" label-placement="floating" fill="outline"
-            (change)="updateProgress()" id="caducidad-input" placeholder="Inserta fecha"></ion-input>
-          <small *ngIf="validarInput('caducidad');" class="form-text text-danger">
-            La caducidad es requerida
+          <ion-input *ngIf="requiresCaducidad" label="Caducidad" type="date" formControlName="caducidad"
+            label-placement="floating" fill="outline" (change)="updateProgress()" id="caducidad-input"
+            placeholder="Inserta fecha"></ion-input>
+          <ion-button expand="block" fill="clear" shape="round" (click)="toggleCaducidadInput();" color="primary"
+            class="capitalize-first-letter">
+            {{ requiresCaducidad ? 'Ocultar' : 'Caducidad' }}
+            <ion-icon [name]="requiresCaducidad ? ocultarIcono : mostrarIcono" slot="start">
+            </ion-icon>
+          </ion-button>
+          <small *ngIf="productForm.get('caducidad')?.touched">
+            Si no tiene, deja vacio el campo.
           </small>
         </ion-col>
 
