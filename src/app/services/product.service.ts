@@ -11,6 +11,8 @@ export class ProductService {
 
 
   getNewProduct: EventEmitter<any> = new EventEmitter();
+  deleteProduct: EventEmitter<any> = new EventEmitter();
+  public deleteProductSubject: Subject<void> = new Subject<void>();
 
 
   url: string = 'http://localhost:8000';
@@ -27,6 +29,15 @@ export class ProductService {
   addProduct(formData: FormData){
     return this.http.post(this.url + '/api/addproduct', formData);
   }
+  editProduct(id: number, formData: FormData){
+    return this.http.put(this.url + `/api/product/${id}`, formData);
+  }
+  deleteProductById(id: number){
+    return this.http.delete(this.url + `/api/product/${id}`);
+  }
+  getDeletedProductObservable(): Observable<void> {
+    return this.deleteProductSubject.asObservable();
+  }
 
   getProducts(){
     return this.http.get(this.url + '/api/products');
@@ -37,5 +48,10 @@ export class ProductService {
   //Coloca el producto
   setNewProduct(product: any){
     this.getNewProduct.emit(product)
+  }
+
+
+  removeProduct(product: any){
+    this.deleteProduct.emit(product)
   }
 }
