@@ -97,8 +97,8 @@
             <ion-icon [name]="requiresCaducidad ? ocultarIcono : mostrarIcono" slot="start">
             </ion-icon>
           </ion-button>
-          <small *ngIf="productForm.get('caducidad')?.touched">
-            Si no tiene, deja vacio el campo.
+          <small *ngIf="productForm.hasError('expiredError')" class="form-text text-danger">
+            La caducidad debe ser mayor a la del dia de registro.
           </small>
         </ion-col>
 

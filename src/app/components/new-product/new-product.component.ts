@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { validarPrecio } from 'src/app/validators/precio.validator';
 import { CustomValidators } from 'src/app/validators/comparar.validator';
+import { CustomValidatonsCad } from 'src/app/validators/caducidad.validator';
 
 @Component({
   selector: 'app-new-product',
@@ -81,7 +81,7 @@ export class NewProductComponent implements OnInit {
 
   },
     // { validators: CustomValidators.preciosComparar }
-    { validators: Validators.compose([CustomValidators.preciosComparar, CustomValidators.stockValido]) }
+    { validators: Validators.compose([CustomValidators.preciosComparar, CustomValidators.stockValido, CustomValidatonsCad.caducidadValida]) }
 
   );
 
