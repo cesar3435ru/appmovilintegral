@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController, NavParams } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
 import { ConfigService } from 'src/app/services/config.service';
@@ -14,8 +14,26 @@ import { CustomValidatonsCad } from 'src/app/validators/caducidad.validator';
 })
 export class NewProductComponent implements OnInit {
 
+  edit = false;
+  //Boton de editar o guardar
+  productId: number = 0;
+
   constructor(private modalC: ModalController, private navCtrl: NavController,
-    private formb: FormBuilder, private product: ProductService, private category: ConfigService, private alert: ToastService) { }
+    private formb: FormBuilder, private product: ProductService, private category: ConfigService, private alert: ToastService, private nParams: NavParams) {
+    let info = this.nParams.get('datakey');
+    if (info) {
+      console.log(info);
+      this.productForm.reset(info);
+      this.edit = true;
+      console.log('Valor: ', this.edit);
+      this.productId = info.id; // Extrae el ID del objeto y almacénalo
+      console.log('ID del producto:', this.productId);
+    } else {
+      this.edit = false;
+      console.log('Valor: ', this.edit);
+    }
+
+  }
 
   mycategories: any[] = [];
   selectedFile: File | null = null;
@@ -72,8 +90,8 @@ export class NewProductComponent implements OnInit {
 
   productForm: FormGroup = this.formb.group({
     nombre: ['', [Validators.required, Validators.maxLength(20)]],
-    precio_adquirido: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
-    precio_de_venta: [null, [Validators.required, Validators.min(1), Validators.max(5000)]],
+    precio_adquirido: [null, [Validators.required, Validators.min(1), Validators.max(20000)]],
+    precio_de_venta: [null, [Validators.required, Validators.min(1), Validators.max(20000)]],
     cat_id: ['', [Validators.required]],
     stock: [null, Validators.required],
     imagen: ['', Validators.required],
@@ -93,16 +111,9 @@ export class NewProductComponent implements OnInit {
   toggleCaducidadInput() {
     this.requiresCaducidad = !this.requiresCaducidad;
   }
+  
 
-  // saveProduct() {
-  //   if (this.productForm.valid) {
-  //     console.log(this.productForm.value);
-  //     this.productForm.reset();
-  //     this.presentToast('middle');
-  //     this.showProgressBar = false;
-  //     this.updateProgress();
-  //   }
-  // }
+
 
   saveProduct() {
     if (this.productForm.invalid) return
@@ -121,29 +132,44 @@ export class NewProductComponent implements OnInit {
       formData.append('imagen', this.selectedFile, this.selectedFile.name);
     }
 
-    // Enviar el formData al backend utilizando HttpClient (por ejemplo, mediante el servicio UserService)
-    this.product.addProduct(formData).subscribe(
-      (response) => {
-        this.product.setNewProduct(response); //Set el emitter
-        console.log('Peticion exitosa:', response);
-        this.alert.mostrarToast('Producto creado con éxito', 5000, 'top', 'success', 'checkmark-circle');
-        // Restablecer el formulario después de enviar los datos
-        this.productForm.reset();
-        this.showProgressBar = false;
-        this.updateProgress(); // Actualizar progreso después de guardar
-        this.selectedFile = null; // Reiniciar la variable del archivo seleccionado
-        this.closeModal();
-      },
-      (error) => {
-        // Manejar el error si la solicitud falla
-        console.error('Error al enviar datos al backend:', error);
-        this.alert.mostrarToast('Error de registro', 5000, 'top', 'danger', 'close-circle-outline');
-        this.productForm.reset();
-        this.showProgressBar = false;
-        this.updateProgress(); // Actualizar progreso después de guardar
-        this.selectedFile = null; // Reiniciar la variable del archivo seleccionado
-      }
-    );
+    if (this.edit) {
+      this.product.editProduct(this.productId, this.productForm.value).subscribe(        
+        (response) => {
+          this.alert.mostrarToast('Actualización exitosa!!!', 5000, 'top', 'success', 'checkmark-circle');
+          this.product.editProductSubject.next();
+          this.closeModal();
+        },
+        (error)=>{
+          this.alert.mostrarToast('Error al intentar actualizar!!!', 5000, 'top', 'danger', 'close-circle-outline');
+        }
+      )
+      
+      
+    } else {
+      this.product.addProduct(formData).subscribe(
+        (response) => {
+          this.product.setNewProduct(response); //Set el emitter
+          console.log('Peticion exitosa:', response);
+          this.alert.mostrarToast('Producto creado con éxito', 5000, 'top', 'success', 'checkmark-circle');
+          // Restablecer el formulario después de enviar los datos
+          this.productForm.reset();
+          this.showProgressBar = false;
+          this.updateProgress(); // Actualizar progreso después de guardar
+          this.selectedFile = null; // Reiniciar la variable del archivo seleccionado
+          this.closeModal();
+        },
+        (error) => {
+          console.error('Error al enviar datos al backend:', error);
+          this.alert.mostrarToast('Error de registro', 5000, 'top', 'danger', 'close-circle-outline');
+          this.productForm.reset();
+          this.showProgressBar = false;
+          this.updateProgress(); 
+          this.selectedFile = null;
+        }
+      );
+
+    }
+
   }
 
 

@@ -30,7 +30,7 @@ import * as moment from 'moment';
 export class CustomValidatonsCad {
     static caducidadValida: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
         const caducidad = control?.get('caducidad')?.value;
-        console.log('caducidad', caducidad);
+        // console.log('caducidad', caducidad);
 
         const fechaCaducidad = moment(caducidad);
 
@@ -38,10 +38,10 @@ export class CustomValidatonsCad {
 
         const fechaAnterior = fechaCaducidad.isBefore(hoy);
 
-        console.log(fechaAnterior);
+        // console.log(fechaAnterior);
 
         if (fechaAnterior) {
-            console.log(fechaAnterior);
+            // console.log(fechaAnterior);
             return { expiredError: true };
         }
 

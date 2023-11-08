@@ -141,4 +141,14 @@ export class AddProductoComponent implements OnInit {
 
   }
 
+  // saveProduct() {
+  //   if (this.productForm.valid) {
+  //     console.log(this.productForm.value);
+  //     this.productForm.reset();
+  //     this.presentToast('middle');
+  //     this.showProgressBar = false;
+  //     this.updateProgress();
+  //   }
+  // }
+
 }

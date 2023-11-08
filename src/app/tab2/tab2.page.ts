@@ -45,7 +45,11 @@ export class Tab2Page implements OnInit {
         this.products.push(product)
         this.getProducts();
       }
-    })
+    });
+    this.productS.getEditedProductAsAObservable().subscribe(() => {
+      this.getProducts();
+    });
+
     this.getProducts();
     this.loadCategories();
     //Actualiza de forma automatica cuando se elimina un elemento
@@ -74,9 +78,12 @@ export class Tab2Page implements OnInit {
   getProducts() {
     this.productS.getProducts().subscribe((resp: any) => {
       this.products = resp;
+      this.products.reverse();
       console.log('Mis productos', this.products);
     });
   }
+
+
 
 
 
@@ -108,6 +115,8 @@ export class Tab2Page implements OnInit {
     await md.present();
 
   }
+
+
   async abrirFProducto() {
 
     const md = await this.modal.create({
@@ -156,8 +165,17 @@ export class Tab2Page implements OnInit {
 
   }
 
-  editProduct() {
-    console.log('PROBANDO FUNCION');
+    async openEditProduct(prod: any) {
+
+    const md = await this.modal.create({
+      component: NewProductComponent,
+      mode: 'md',
+      componentProps:{
+        datakey:prod
+      }
+    })
+
+    await md.present();
 
   }
 
