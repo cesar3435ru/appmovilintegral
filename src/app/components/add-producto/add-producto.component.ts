@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ConfigService } from 'src/app/services/config.service';
 import { ProductService } from 'src/app/services/product.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { validarPrecio } from 'src/app/validators/precio.validator';
 
 
@@ -13,6 +14,9 @@ import { validarPrecio } from 'src/app/validators/precio.validator';
   styleUrls: ['./add-producto.component.scss'],
 })
 export class AddProductoComponent implements OnInit {
+  edit = false;
+  //Boton de editar o guardar
+  productId: number = 0;
   imgProduct = './assets/upload.png';
   currentFile?: any[] = [];
   categorias: any[] = [];
@@ -22,7 +26,9 @@ export class AddProductoComponent implements OnInit {
     private compressImg: NgxImageCompressService,
     private fb: FormBuilder,
     private categoryService: ConfigService,
-    private _productService: ProductService
+    private _productService: ProductService,
+    private nParams: NavParams,
+    private alert: ToastService
   ) {
     this.getCategorias();
     this.formProduct = this.fb.group({
@@ -38,6 +44,20 @@ export class AddProductoComponent implements OnInit {
     },
       { validators: validarPrecio },
     );
+
+    let info = this.nParams.get('datakey');
+    if (info) {
+      console.log(info);
+      this.formProduct.reset(info);
+      this.edit = true;
+      this.imgProduct = info.imagen;
+      console.log('Valor: ', this.edit);
+      this.productId = info.id; // Extrae el ID del objeto y almacénalo
+      console.log('ID del producto:', this.productId);
+    } else {
+      this.edit = false;
+      console.log('Valor: ', this.edit);
+    }
   }
 
   validarMonto() {
@@ -150,5 +170,44 @@ export class AddProductoComponent implements OnInit {
   //     this.updateProgress();
   //   }
   // }
+
+  
+
+  saveData() {
+    console.log(this.formProduct.errors);
+    const formdata = new FormData();
+    let data = this.formProduct.getRawValue();
+    for (const dataKey in data) {
+      formdata.append(dataKey, data[dataKey]);
+    }
+    if (this.currentFile) {
+      formdata.append('imagen', this.currentFile[0]);
+    }
+    console.log('Formdata', formdata);
+    if (this.edit) {
+      console.log('Actualizar producto');
+      this._productService.addProduct(formdata).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp) {
+          this.alert.mostrarToast('Producto creado con éxito', 5000, 'top', 'success', 'checkmark-circle');
+          this._productService.setNewProduct(resp);
+          this.modalCtrl.dismiss();
+          this.formProduct.reset();
+        }
+      });
+    } else {
+      this._productService.editProduct(this.productId, formdata,).subscribe(
+        (resp: any) => {
+          console.log(resp);
+          if (resp) {
+            this.alert.mostrarToast('Producto actualizado con éxito', 5000, 'top', 'success', 'checkmark-circle');
+            this._productService.setNewProduct(resp);
+            this.modalCtrl.dismiss();
+            this.formProduct.reset();
+          }
+        }
+      );
+    }
+  }
 
 }

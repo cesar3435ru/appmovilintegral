@@ -78,8 +78,9 @@
           <ion-input formControlName="caducidad" type="date" fill="outline" placeholder=" Vencimiento"></ion-input>
         </ion-col>
       </ion-row>
-      <ion-button type="submit" expand="block">
-        Guardar
+      <ion-button mode="ios" type="submit" [disabled]="formProduct.invalid" expand="block" shape="round" [color]="edit ? 'secondary' : 'primary'">
+        {{ edit ? 'Actualizar' : 'Registrar' }}
+        <ion-icon [name]="edit ? 'bag-check-outline' : 'cloud'" slot="start"></ion-icon>
       </ion-button>
 
     </form>

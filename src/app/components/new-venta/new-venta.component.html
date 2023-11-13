@@ -16,8 +16,12 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-searchbar mode="ios" placeholder="Buscar producto" (ionChange)="onSearchChange($event)" [debounce]="250">
+  <ion-searchbar mode="ios" placeholder="Buscar producto" (ionChange)="showMyProducts($event)" [debounce]="250">
   </ion-searchbar>
+
+  <ion-chip [outline]="true" *ngIf="popoverInfo">
+    {{ popoverInfo.nombre }}
+  </ion-chip>
 
   <ion-grid>
     <form [formGroup]="ventaForm" (ngSubmit)="saveVenta()">
@@ -29,8 +33,8 @@
 
         <ion-col size="12">
           <ion-item mode="ios">
-            <ion-select formControlName="prod_id" multiple="false" aria-label="Producto" interface="action-sheet" (ionChange)="updateProgress()"
-              id="prod_id-select" placeholder="Selecciona el productos">
+            <ion-select formControlName="prod_id" multiple="false" aria-label="Producto" interface="action-sheet"
+              (ionChange)="updateProgress()" id="prod_id-select" placeholder="Selecciona el productos">
               <ion-select-option *ngFor="let prod_id of productos" [value]="prod_id">{{
                 prod_id}}</ion-select-option>
             </ion-select>
@@ -54,7 +58,7 @@
             Debes elegir un producto
           </small>
         </ion-col> -->
-        
+
 
         <!-- DATALIST HTML <ion-col size="12">
           <label for="producto">Busca el producto:</label>
@@ -69,7 +73,7 @@
             Debes elegir un producto
           </small>
         </ion-col> -->
-        
+
 
 
         <ion-col size="6">

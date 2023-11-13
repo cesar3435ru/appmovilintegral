@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { NewProductComponent } from '../components/new-product/new-product.component';
 import { VerProductComponent } from '../components/ver-product/ver-product.component';
 import { NewVentaComponent } from '../components/new-venta/new-venta.component';
@@ -8,6 +8,7 @@ import { NewCategoriaComponent } from '../components/new-categoria/new-categoria
 import { AddProductoComponent } from '../components/add-producto/add-producto.component';
 import { ProductService } from '../services/product.service';
 import { ToastService } from '../services/toast.service';
+import { FilterProductsComponent } from '../components/filter-products/filter-products.component';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class Tab2Page implements OnInit {
     private http: ConfigService,
     private productS: ProductService,
     private alert: ToastService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private popCt: PopoverController
   ) {
     this.http.getCategoryObservable().subscribe(() => {
       this.loadCategories();
@@ -67,10 +69,6 @@ export class Tab2Page implements OnInit {
 
   }
 
-  onSearchChange(event: any) {
-    console.log('HOLA');
-
-  }
 
   ngOnInit(): void {
   }
@@ -165,13 +163,27 @@ export class Tab2Page implements OnInit {
 
   }
 
-    async openEditProduct(prod: any) {
+  //   async openEditProduct(prod: any) {
+
+  //   const md = await this.modal.create({
+  //     component: NewProductComponent,
+  //     mode: 'md',
+  //     componentProps:{
+  //       datakey:prod
+  //     }
+  //   })
+
+  //   await md.present();
+
+  // }
+
+  async openEditProduct(prod: any) {
 
     const md = await this.modal.create({
-      component: NewProductComponent,
+      component: AddProductoComponent,
       mode: 'md',
-      componentProps:{
-        datakey:prod
+      componentProps: {
+        datakey: prod
       }
     })
 
@@ -222,9 +234,9 @@ export class Tab2Page implements OnInit {
       message: '¿Estás seguro de que deseas eliminar este producto?',
       buttons: this.alertButtons,
     });
-  
+
     await alert.present();
-  
+
     alert.onDidDismiss().then((result) => {
       if (result.role === 'confirm') {
         // El usuario confirma la eliminación, procede a eliminar el producto.
@@ -232,5 +244,28 @@ export class Tab2Page implements OnInit {
       }
     });
   }
+
+  // showMyProducts(e: any){
+  //    const filtrados:any[] = this.products.filter(
+  //     prod =>prod.nombre.toLowerCase().includes(e.details.value.toLowerCase());
+  //     )
+  //   console.log(e.detail.value);
+  //   this.presentPopover(filtrados);
+  // }
+  showMyProducts(e: any) {
+    console.log(e.detail.value);
+  }
+
+  // async presentPopover(data: any){
+  //   const pop = await this.popCt.create({
+  //     component: FilterProductsComponent,
+  //     event: data,
+  //     side: 'right',
+  //     componentProps:{productos:data}
+  //   });
+  //   await pop.present();
+
+  // }
+
 
 }

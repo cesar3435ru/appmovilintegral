@@ -1,0 +1,11 @@
+<ion-list *ngIf="products.length > 0">
+  <ion-item detail="true" *ngFor="let p of products">
+    <ion-button (click)="selectProduct(p);" fill="clear">
+      {{ p.nombre }}
+    </ion-button>
+  </ion-item>
+</ion-list>
+
+<div *ngIf="products.length === 0">
+  <p>No hay productos disponibles.</p>
+</div>

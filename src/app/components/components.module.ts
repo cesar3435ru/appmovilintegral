@@ -9,6 +9,7 @@ import { NewVentaComponent } from './new-venta/new-venta.component';
 import { NewCategoriaComponent } from './new-categoria/new-categoria.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddProductoComponent } from './add-producto/add-producto.component';
+import { FilterProductsComponent } from './filter-products/filter-products.component';
 
 
 
@@ -19,11 +20,12 @@ import { AddProductoComponent } from './add-producto/add-producto.component';
     HeaderComponent,
     NewVentaComponent,
     NewCategoriaComponent,
-    AddProductoComponent
+    AddProductoComponent,
+    FilterProductsComponent
   ],
   imports: [
     CommonModule, IonicModule, FormsModule, ReactiveFormsModule, HttpClientModule
   ],
-  exports: [NewProductComponent, VerProductComponent, HeaderComponent, NewVentaComponent, NewCategoriaComponent, AddProductoComponent]
+  exports: [NewProductComponent, VerProductComponent, HeaderComponent, NewVentaComponent, NewCategoriaComponent, AddProductoComponent, FilterProductsComponent]
 })
 export class ComponentsModule { }

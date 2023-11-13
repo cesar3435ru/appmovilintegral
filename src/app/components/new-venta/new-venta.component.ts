@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavController, ToastController } from '@ionic/angular';
+import { ModalController, NavController, PopoverController, ToastController } from '@ionic/angular';
+import { FilterProductsComponent } from '../filter-products/filter-products.component';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-new-venta',
@@ -9,22 +11,36 @@ import { ModalController, NavController, ToastController } from '@ionic/angular'
 })
 export class NewVentaComponent implements OnInit {
 
+  popoverInfo: any;
+  // popoverInfo: any = {};
 
   constructor(private modalC: ModalController, private navCtrl: NavController,
-    private formb: FormBuilder, private toastController: ToastController) { }
+    private formb: FormBuilder, private toastController: ToastController, private productS: ProductService, private popCt: PopoverController
 
-  onSearchChange(event: any) {
-    console.log('HOLA');
-
+  ) {
+    this.getProducts();
+    this.productS.getProducts().subscribe(
+      (prod: any) => { this.products = prod });
   }
+
+
+  products: any[] = [];
+
   progress: number = 0;
   showProgressBar = false;
 
-  
+
 
   productos = ['Sabritas', 'Azucar', 'Sal', 'Jugo', 'Galletas', 'Maruchan', 'Refresco', 'Gansito', 'Cerveza']
 
 
+  getProducts() {
+    this.productS.getProducts().subscribe((resp: any) => {
+      this.products = resp;
+      this.products.reverse();
+      console.log('Mis productos', this.products);
+    });
+  }
   ngOnInit() {
     this.ventaForm.valueChanges.subscribe(() => {
       this.showProgressBar = true;
@@ -73,6 +89,32 @@ export class NewVentaComponent implements OnInit {
     });
 
     await toast.present();
+  }
+
+  showMyProducts(e: any) {
+    const busqueda = e.detail.value;
+    const filtrados: any[] = this.products.filter(
+      prod => prod.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    );
+    console.log(e.detail.value);
+    this.presentPopover(filtrados);
+  }
+
+  async presentPopover(data: any) {
+    const pop = await this.popCt.create({
+      component: FilterProductsComponent,
+      event: data,
+      side: 'right',
+      componentProps: { products: data }
+    });
+    await pop.present();
+
+    const info = await pop.onWillDismiss();
+    if (info) {
+      this.popoverInfo = info.data.item;
+      console.log('Si llego la info', info);
+    }
+
   }
 
 }
