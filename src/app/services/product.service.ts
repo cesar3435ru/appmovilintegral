@@ -14,6 +14,8 @@ export class ProductService {
   deleteProduct: EventEmitter<any> = new EventEmitter();
   public deleteProductSubject: Subject<void> = new Subject<void>();
   public editProductSubject: Subject<void> = new Subject<void>();
+  public ventaSubject: Subject<void> = new Subject<void>();
+
 
 
 
@@ -60,5 +62,19 @@ export class ProductService {
   getEditedProductAsAObservable(): Observable<void> {
     return this.editProductSubject.asObservable();
   }
+
+  doNewSale(data:any) {
+    return this.http.post(this.url + '/api/nventa', data);
+  }
+
+  getVentaObservable(): Observable<void> {
+    return this.ventaSubject.asObservable();
+  }
+
+  getVentas() {
+    return this.http.get(this.url + '/api/ventas');
+  }
+
+
 
 }

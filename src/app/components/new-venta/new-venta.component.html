@@ -19,19 +19,24 @@
   <ion-searchbar mode="ios" placeholder="Buscar producto" (ionChange)="showMyProducts($event)" [debounce]="250">
   </ion-searchbar>
 
-  <ion-chip [outline]="true" *ngIf="popoverInfo">
+  <ion-chip *ngIf="popoverInfo" [ngClass]="{'rojo': esCantidadMayor(popoverInfo.stock)}">
     {{ popoverInfo.nombre }}
+    {{ popoverInfo.stock }}
   </ion-chip>
+
+  <!-- <ion-chip *ngIf="stock" [ngClass]="{'rojo': esCantidadMayor(stock)}">
+    {{ stock }}
+  </ion-chip> -->
 
   <ion-grid>
     <form [formGroup]="ventaForm" (ngSubmit)="saveVenta()">
       <ion-row>
         <ion-col size="12" *ngIf="showProgressBar">
-          <h6 class="ion-text-center">Este es tu progreso {{progress}}</h6>
-          <ion-progress-bar [value]="progress / 100"></ion-progress-bar>
+          <h6 class="ion-text-center">Generando info de la venta</h6>
+          <ion-progress-bar [value]="progress / 100" color="tertiary"></ion-progress-bar>
         </ion-col>
 
-        <ion-col size="12">
+        <!-- <ion-col size="12">
           <ion-item mode="ios">
             <ion-select formControlName="prod_id" multiple="false" aria-label="Producto" interface="action-sheet"
               (ionChange)="updateProgress()" id="prod_id-select" placeholder="Selecciona el productos">
@@ -42,7 +47,7 @@
           <small *ngIf="validarInput('prod_id');" class="form-text text-danger">
             Debes elegir un producto
           </small>
-        </ion-col>
+        </ion-col> -->
 
         <!-- <ion-col size="12">
           <ion-searchbar mode="ios" placeholder="Buscar producto" (ionChange)="onSearchChange($event)"></ion-searchbar>
@@ -76,37 +81,55 @@
 
 
 
-        <ion-col size="6">
+        <ion-col size="12">
           <ion-input label="Cantidad" type="number" formControlName="cantidad" label-placement="floating"
             (change)="updateProgress()" id="cantidad-input" fill="outline" placeholder="Cuantas unidades"></ion-input>
           <small *ngIf="validarInput('cantidad');" class="form-text text-danger">
             La cantidad es requerida
           </small>
+          <small *ngIf="ventaForm.hasError('cValida') && ventaForm.get('cantidad')?.touched"
+            class="form-text text-danger">
+            {{ ventaForm.getError('cValida') }}
+          </small>
+
+          <small *ngIf="ventaForm.get('cantidad')?.errors?.['max']" class="form-text text-danger">
+            y la cantidad supera el stock disponible.
+          </small>
+
+
         </ion-col>
 
         <ion-col size="6">
-          <ion-input label="Total" type="total" formControlName="total" label-placement="floating"
-            (change)="updateProgress()" id="total-input" fill="outline" placeholder="Total de venta"></ion-input>
+          <ion-input label="Total" type="total" formControlName="total" label-placement="floating" id="total-input"
+            fill="outline" placeholder="Total de venta"></ion-input>
           <small *ngIf="validarInput('total');" class="form-text text-danger">
             El total es requerido
           </small>
+          <small *ngIf="ventaForm.hasError('tValido') && ventaForm.get('total')?.touched" class="form-text text-danger">
+            {{ ventaForm.getError('tValido') }}
+          </small>
         </ion-col>
 
         <ion-col size="6">
-          <ion-input label="Ganancias" type="number" formControlName="ganancias" (change)="updateProgress()"
-            id="ganancias-input" label-placement="floating" fill="outline" placeholder="Inserta ganancia"></ion-input>
-          <small *ngIf="validarInput('ganancias');" class="form-text text-danger">
+          <ion-input label="Ganancias" type="number" formControlName="ganacias" id="ganancias-input"
+            label-placement="floating" fill="outline" placeholder="Inserta ganancia"></ion-input>
+          <small *ngIf="validarInput('ganacias');" class="form-text text-danger">
             La ganancia es requerida
           </small>
-        </ion-col>
-
-        <ion-col size="6">
-          <ion-input label="Hora" type="datetime-local" formControlName="hora" label-placement="floating" fill="outline"
-            (change)="updateProgress()" id="caducidad-input" placeholder="Inserta fecha y hora"></ion-input>
-          <small *ngIf="validarInput('hora');" class="form-text text-danger">
-            La hora es requerida
+          <small *ngIf="ventaForm.hasError('gValida') && ventaForm.get('ganacias')?.touched"
+            class="form-text text-danger">
+            {{ ventaForm.getError('gValida') }}
           </small>
         </ion-col>
+
+
+        <ion-col size="12">
+          <ion-item>
+            <ion-checkbox formControlName="aceptarVenta">Confirmar venta</ion-checkbox>
+          </ion-item>
+        </ion-col>
+
+
 
 
       </ion-row>

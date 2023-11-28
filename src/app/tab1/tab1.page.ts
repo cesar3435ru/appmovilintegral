@@ -10,6 +10,7 @@ import {
 } from "ng-apexcharts";
 import { ModalController } from '@ionic/angular';
 import { NewCategoriaComponent } from '../components/new-categoria/new-categoria.component';
+import { ProductService } from '../services/product.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -45,9 +46,10 @@ export class Tab1Page {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
   home = 'Sistema de inventario';
+  ventas: any[] = [];
 
 
-  constructor(private modal: ModalController) {
+  constructor(private modal: ModalController, private p: ProductService) {
     this.chartOptions = {
       series: [
         {
@@ -66,6 +68,10 @@ export class Tab1Page {
         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
       }
     };
+    this.getSales();
+    this.p.getVentaObservable().subscribe(() => {
+      this.getSales();
+    });
   }
 
 
@@ -145,6 +151,19 @@ export class Tab1Page {
       img: 'https://m.media-amazon.com/images/I/61wVdpwmktL._AC_SL1500_.jpg'
     },
   ]
+
+  getSales() {
+    this.p.getVentas().subscribe((resp: any) => {
+      this.ventas = resp;
+      this.ventas.reverse();
+      console.log('Mis ventas', this.ventas);
+    });
+  }
+
+  esCantidadMayor(cantidad: number): boolean {
+    return cantidad > 5;
+  }
+
 
 
 

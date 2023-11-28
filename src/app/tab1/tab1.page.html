@@ -5,7 +5,7 @@
 
 
   <swiper-container #swiper [pagination]="true" [autoplay]="{delay: 3000}" effect="flip" [slidesPerView]="1.5"
-  [loop]="true">
+    [loop]="true">
     <swiper-slide class="ion-padding" *ngFor="let prod of masVendidos">
       <ion-card class="ion-padding">
         <img [src]="prod.imagen">
@@ -13,7 +13,7 @@
     </swiper-slide>
   </swiper-container>
 
-  
+
 
   <ion-grid>
     <ion-row>
@@ -56,14 +56,40 @@
       </ion-card>
     </swiper-slide>
   </swiper-container>
-  
-<ion-text color="dark" class="ion-text-left">
+
+  <ion-text color="dark" class="ion-text-left">
     <h4 class="ion-padding">Estadisticas</h4>
-  </ion-text> 
+  </ion-text>
   <div style="text-align:center">
     <apx-chart [series]="chartOptions.series!" [chart]="chartOptions.chart!" [xaxis]="chartOptions.xaxis!"
       [title]="chartOptions.title!"></apx-chart>
   </div>
+
+  <ion-text color="dark" class="ion-text-left">
+    <h4 class="ion-padding">Ventas</h4>
+  </ion-text>
+  <ion-card>
+    <ion-list class="card-list">
+      <ion-row>
+        <ion-col size-lg="4" size-md="4" size-sm="6" size-xs="12" *ngFor="let v of ventas">
+          <ion-item lines="full" [ngClass]="{'verde': esCantidadMayor(v.cantidad)}">
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" [src]="v.product.imagen" />
+            </ion-thumbnail>
+            <ion-label>
+              {{v.product.nombre}}
+              <p><b>Cantidad:</b>{{v.cantidad}}</p>
+              <p><b>Ganancia: </b>{{v.ganacias | currency}}</p>
+              <p><b>Fecha: </b>{{ v.created_at | date: 'dd/MM/yyyy' }}</p>
+              <p><b>Hora: </b>{{ v.created_at | date: 'HH:mm:ss' }}</p>
+
+            </ion-label>
+
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  </ion-card>
 
 
 </ion-content>
