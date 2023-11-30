@@ -36,7 +36,7 @@
     </ion-card-header>
     <ion-row>
       <ion-col *ngFor="let cat of categories" size-lg="3" size-md="3" size-sm="4" size-xs="4">
-        <ion-button class="ion-text-uppercase" expand="block" shape="round" [color]="cat.color">
+        <ion-button class="ion-text-uppercase" expand="block" shape="round" [color]="cat.color" (click)="filterProductsByCategory(cat.id);">
           <p>
             {{ cat.nombre.length > 12 ? cat.nombre.substr(0, 10) + '...' : cat.nombre }}
           </p>
@@ -83,33 +83,10 @@
   </ion-grid>
 
 
-
-  <!-- <ion-card>
-    <ion-list>
-      <ion-item lines="full" *ngFor="let p of products">
-        <ion-thumbnail slot="start" (click)="viewProduct();">
-          <img alt="Silhouette of mountains" [src]="p.imagen" />
-        </ion-thumbnail>
-        <ion-label>{{p.nombre}}
-          <p><b>Stock:</b>{{p.stock}}</p>
-          <p><b>Precio: </b>{{p.precio_de_venta | currency}}
-          </p>
-        </ion-label>
-        <ion-button fill="clear" (click)="editProduct();">
-          <ion-icon color="primary" name="create" slot="icon-only"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" (click)="confirmDeleteProduct(p.id);">
-          <ion-icon color="danger" name="trash" slot="icon-only"></ion-icon>
-        </ion-button>
-
-      </ion-item>
-    </ion-list>
-  </ion-card> -->
-
   <ion-card>
     <ion-list class="card-list">
       <ion-row>
-        <ion-col size-lg="4" size-md="4" size-sm="6" size-xs="12" *ngFor="let p of products">
+        <ion-col size-lg="4" size-md="4" size-sm="6" size-xs="12" *ngFor="let p of filteredProducts">
           <ion-item lines="full">
             <ion-thumbnail slot="start" (click)="viewProduct();">
               <img alt="Silhouette of mountains" [src]="p.imagen" />

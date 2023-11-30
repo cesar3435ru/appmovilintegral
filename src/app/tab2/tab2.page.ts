@@ -21,7 +21,9 @@ export class Tab2Page implements OnInit {
 
   categories: any[] = [];
   products: any[] = [];
+  filteredProducts: any[] = [];
   respaldocategories: any[] = [];
+
   vermas = true;
 
   constructor(
@@ -245,27 +247,19 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  // showMyProducts(e: any){
-  //    const filtrados:any[] = this.products.filter(
-  //     prod =>prod.nombre.toLowerCase().includes(e.details.value.toLowerCase());
-  //     )
-  //   console.log(e.detail.value);
-  //   this.presentPopover(filtrados);
-  // }
+
   showMyProducts(e: any) {
     console.log(e.detail.value);
   }
 
-  // async presentPopover(data: any){
-  //   const pop = await this.popCt.create({
-  //     component: FilterProductsComponent,
-  //     event: data,
-  //     side: 'right',
-  //     componentProps:{productos:data}
-  //   });
-  //   await pop.present();
+  filterProductsByCategory(id: number){
+    console.log('PROBANDO FUNCION:', id);
+    this.filteredProducts = this.products.filter(product => product.cat_id === id);
+    console.log(this.filteredProducts);
+  }
 
-  // }
+
+
 
 
 }
