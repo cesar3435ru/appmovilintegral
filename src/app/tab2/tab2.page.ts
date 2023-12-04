@@ -23,6 +23,7 @@ export class Tab2Page implements OnInit {
   products: any[] = [];
   filteredProducts: any[] = [];
   respaldocategories: any[] = [];
+  filteredCategoryId: number | null = null; // ID de categoría filtrada
 
   vermas = true;
 
@@ -252,14 +253,37 @@ export class Tab2Page implements OnInit {
     console.log(e.detail.value);
   }
 
-  filterProductsByCategory(id: number){
-    console.log('PROBANDO FUNCION:', id);
-    this.filteredProducts = this.products.filter(product => product.cat_id === id);
-    console.log(this.filteredProducts);
+  // filterProductsByCategory(id: number){
+  //   console.log('PROBANDO FUNCION:', id);
+  //   this.filteredProducts = this.products.filter(product => product.cat_id === id);
+  //   console.log(this.filteredProducts);
+  // }
+
+
+  // Función para obtener los productos según la categoría seleccionada o todos si no hay filtro
+  getDisplayedProducts() {
+    return this.filteredCategoryId ? this.products.filter(product => product.cat_id === this.filteredCategoryId) : this.products;
   }
 
 
+  // En tu controlador/componente
+  filterTimeout: any; // Variable para almacenar el temporizador
 
+  // Función para limpiar el filtro después de 2 minutos
+  resetFilter() {
+    this.filteredCategoryId = null; // Limpiar el filtro
+  }
+
+  // Función para filtrar productos por category_id
+  filterProductsByCategory(categoryId: number) {
+    this.filteredCategoryId = categoryId === this.filteredCategoryId ? null : categoryId;
+
+    // Limpiar el filtro después de 2 minutos
+    clearTimeout(this.filterTimeout); // Limpiar el temporizador existente si hay alguno
+    this.filterTimeout = setTimeout(() => {
+      this.resetFilter();
+    }, 10000); // 120000 milisegundos = 2 minutos
+  }
 
 
 }

@@ -1,5 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { register } from 'swiper/element/bundle';
+
+
+
+
+
 register(); //Se debe importar en cada componente que se vayan a usar
 import {
   ChartComponent,
@@ -179,4 +184,19 @@ export class Tab1Page {
     await md.present();
 
   }
+
+  gPDF() {
+    console.log(this.ventas);
+    this.p.generatePDF(this.ventas);
+
+  }
+
+
+
+
+
 }
+
+//FILTRO DE DATOS por fecha
+//GRAFICA DE VENTAS
+//PRODUCTOS MAS VENDIDOS

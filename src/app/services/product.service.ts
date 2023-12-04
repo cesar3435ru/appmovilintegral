@@ -1,7 +1,9 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, BehaviorSubject, of, catchError, throwError, tap, Subject } from 'rxjs';
-
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 
 @Injectable({
@@ -63,7 +65,7 @@ export class ProductService {
     return this.editProductSubject.asObservable();
   }
 
-  doNewSale(data:any) {
+  doNewSale(data: any) {
     return this.http.post(this.url + '/api/nventa', data);
   }
 
@@ -75,6 +77,69 @@ export class ProductService {
     return this.http.get(this.url + '/api/ventas');
   }
 
+  async reporte(ventas: any[]) {
+    function buildTableBody(data: any, colum: any) {
+      const body: any = [];
+      data.forEach((row: any) => {
+        const dataRow: any = [];
+        colum.forEach((colum: any) => {
+          const dataObj = {
+            text: row['Hola'],
+            style: 'subheader'
+          };
+          dataRow.push(dataObj);
+        });
+        body.push(dataRow);
+        const obj2 = [{
+          fontSize: 16, bold: true, text: 'Total', style: 'Subheader'
+        },
+        {
+          fontSize: 16, bold: true, text: '1500', style: 'Subheader'
+        },
+
+        ];
+        body.push(obj2);
+
+        return body;
+      }
+      );
+    }
+  }
+
+
+  generatePDF(listaProducts: any) {
+    // Definir el contenido del PDF
+    const documentDefinition = {
+      content: [
+        {
+          text: 'Reporte de ventas', style: 'header'
+        },
+        '\n\n',
+        {
+          table: {
+            headerRows: 1,
+            widths: ['*', 'auto', 'auto','auto'],
+            body: [
+              ['Nombre', 'Cantidad', 'Ganancias', 'Stock'],
+              ...listaProducts.map((p: any) => [p.product.nombre,p.cantidad, `$${ p.ganacias}`, p.product.stock])
+            ]
+          }
+        }
+      ],
+      styles: {
+        header: {
+          fontSize: 14,
+          bold: true
+        }
+      }
+    };
+
+    // Crear el PDF
+    const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
+
+    // Descargar el PDF
+    pdfDocGenerator.download('Reporte_de_ventas.pdf');
+  }
 
 
 }
