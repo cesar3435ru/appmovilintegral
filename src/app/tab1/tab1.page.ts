@@ -25,6 +25,8 @@ export type ChartOptions = {
 };
 
 
+
+
 interface productslide {
   id: number,
   imagen: string,
@@ -52,14 +54,36 @@ export class Tab1Page {
   public chartOptions!: Partial<ChartOptions>;
   home = 'Sistema de inventario';
   ventas: any[] = [];
+  masvendidos: any[] = [];
+  // public masvendidos: any[] = [];
 
 
   constructor(private modal: ModalController, private p: ProductService) {
+    // this.chartOptions = {
+    //   series: [
+    //     {
+    //       name: "My-series",
+    //       data: [10, 41, 35, 51, 49]
+    //     }
+    //   ],
+    //   chart: {
+    //     height: 350,
+    //     type: "bar"
+    //   },
+    //   title: {
+    //     text: "Ventas por mes"
+    //   },
+    //   xaxis: {
+    //     categories: ["Jan", "Feb", "Mar", "Apr", "May"]
+    //   }
+    // };
+    this.getProdsMasVendidos();
+
     this.chartOptions = {
       series: [
         {
-          name: "My-series",
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+          name: "Ventas",
+          data: this.masvendidos.map(product => product.total_vendido)
         }
       ],
       chart: {
@@ -67,17 +91,22 @@ export class Tab1Page {
         type: "bar"
       },
       title: {
-        text: "Ventas por mes"
+        text: "Top 5 de productos más vendidos"
       },
       xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+        categories: this.masvendidos.map(product => product.detalle.nombre)
       }
     };
+
+
+
     this.getSales();
     this.p.getVentaObservable().subscribe(() => {
       this.getSales();
     });
   }
+
+
 
 
 
@@ -162,6 +191,36 @@ export class Tab1Page {
       this.ventas = resp;
       this.ventas.reverse();
       console.log('Mis ventas', this.ventas);
+    });
+  }
+
+  // updateChart() {
+  //   this.chartOptions = {
+  //     series: [
+  //       {
+  //         name: "Ventas",
+  //         data: this.masvendidos.map(product => parseInt(product.total_vendido, 10))
+  //       }
+  //     ],
+  //     chart: {
+  //       height: 350,
+  //       type: "bar"
+  //     },
+  //     title: {
+  //       text: "Ventas de los productos más vendidos"
+  //     },
+  //     xaxis: {
+  //       categories: this.masvendidos.map(product => product.detalle.nombre)
+  //     }
+  //   };
+  // }
+
+
+  getProdsMasVendidos() {
+    this.p.getProductosMasVendidos().subscribe((resp: any) => {
+      // this.masvendidos = resp
+      this.masvendidos = resp.productos_mas_vendidos;
+      console.log('Mas vendidos: ', this.masvendidos);
     });
   }
 

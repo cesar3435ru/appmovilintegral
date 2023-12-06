@@ -141,5 +141,9 @@ export class ProductService {
     pdfDocGenerator.download('Reporte_de_ventas.pdf');
   }
 
+  getProductosMasVendidos() {
+    return this.http.get(this.url + '/api/masvendidos');
+  }
+
 
 }
