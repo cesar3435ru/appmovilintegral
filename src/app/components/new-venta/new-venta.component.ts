@@ -132,6 +132,8 @@ export class NewVentaComponent implements OnInit {
             this.showProgressBar = false;
             this.updateProgress();
             this.productS.ventaSubject.next();
+            this.productS.getProductsSubject.next();
+            this.productS.getProductVendidoSubject.next();
             this.closeModal();
             this.ventaForm.reset();
           }

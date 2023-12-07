@@ -60,12 +60,17 @@
   <ion-text color="dark" class="ion-text-left">
     <h4 class="ion-padding">Estadisticas</h4>
   </ion-text>
-  <div style="text-align:center">
-    <apx-chart [series]="chartOptions.series!" [chart]="chartOptions.chart!" [xaxis]="chartOptions.xaxis!"
-      [title]="chartOptions.title!"></apx-chart>
+  
+  <div *ngIf="chartOptions">
+    <div style="text-align:center">
+      <apx-chart [series]="chartOptions.series!" [chart]="chartOptions.chart!" [xaxis]="chartOptions.xaxis!"
+        [title]="chartOptions.title!"></apx-chart>
+    </div>
   </div>
 
-  
+
+
+
 
   <ion-text color="dark" class="ion-text-left">
     <h4 class="ion-padding">Ventas</h4>

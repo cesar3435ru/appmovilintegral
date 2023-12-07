@@ -17,6 +17,8 @@ export class ProductService {
   public deleteProductSubject: Subject<void> = new Subject<void>();
   public editProductSubject: Subject<void> = new Subject<void>();
   public ventaSubject: Subject<void> = new Subject<void>();
+  public getProductsSubject: Subject<void> = new Subject<void>();
+  public getProductVendidoSubject: Subject<void> = new Subject<void>();
 
 
 
@@ -44,6 +46,10 @@ export class ProductService {
 
   getProducts() {
     return this.http.get(this.url + '/api/products');
+  }
+
+  getProductsObservable(): Observable<void> {
+    return this.getProductsSubject.asObservable();
   }
 
 
@@ -118,10 +124,10 @@ export class ProductService {
         {
           table: {
             headerRows: 1,
-            widths: ['*', 'auto', 'auto','auto'],
+            widths: ['*', 'auto', 'auto', 'auto'],
             body: [
               ['Nombre', 'Cantidad', 'Ganancias', 'Stock'],
-              ...listaProducts.map((p: any) => [p.product.nombre,p.cantidad, `$${ p.ganacias}`, p.product.stock])
+              ...listaProducts.map((p: any) => [p.product.nombre, p.cantidad, `$${p.ganacias}`, p.product.stock])
             ]
           }
         }
@@ -143,6 +149,9 @@ export class ProductService {
 
   getProductosMasVendidos() {
     return this.http.get(this.url + '/api/masvendidos');
+  }
+  getProductVendidoNowAsAObservable(): Observable<void> {
+    return this.getProductVendidoSubject.asObservable();
   }
 
 

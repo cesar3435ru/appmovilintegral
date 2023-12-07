@@ -54,60 +54,18 @@ export class Tab1Page {
   public chartOptions!: Partial<ChartOptions>;
   home = 'Sistema de inventario';
   ventas: any[] = [];
-  masvendidos: any[] = [];
-  // public masvendidos: any[] = [];
-
 
   constructor(private modal: ModalController, private p: ProductService) {
-    // this.chartOptions = {
-    //   series: [
-    //     {
-    //       name: "My-series",
-    //       data: [10, 41, 35, 51, 49]
-    //     }
-    //   ],
-    //   chart: {
-    //     height: 350,
-    //     type: "bar"
-    //   },
-    //   title: {
-    //     text: "Ventas por mes"
-    //   },
-    //   xaxis: {
-    //     categories: ["Jan", "Feb", "Mar", "Apr", "May"]
-    //   }
-    // };
+
     this.getProdsMasVendidos();
-
-    this.chartOptions = {
-      series: [
-        {
-          name: "Ventas",
-          data: this.masvendidos.map(product => product.total_vendido)
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "bar"
-      },
-      title: {
-        text: "Top 5 de productos más vendidos"
-      },
-      xaxis: {
-        categories: this.masvendidos.map(product => product.detalle.nombre)
-      }
-    };
-
-
-
     this.getSales();
     this.p.getVentaObservable().subscribe(() => {
       this.getSales();
     });
+    this.p.getProductVendidoNowAsAObservable().subscribe(() => {
+      this.getProdsMasVendidos();
+    });
   }
-
-
-
 
 
   swiperSlideChanged(e: any) {
@@ -194,33 +152,35 @@ export class Tab1Page {
     });
   }
 
-  // updateChart() {
-  //   this.chartOptions = {
-  //     series: [
-  //       {
-  //         name: "Ventas",
-  //         data: this.masvendidos.map(product => parseInt(product.total_vendido, 10))
-  //       }
-  //     ],
-  //     chart: {
-  //       height: 350,
-  //       type: "bar"
-  //     },
-  //     title: {
-  //       text: "Ventas de los productos más vendidos"
-  //     },
-  //     xaxis: {
-  //       categories: this.masvendidos.map(product => product.detalle.nombre)
-  //     }
-  //   };
-  // }
-
 
   getProdsMasVendidos() {
     this.p.getProductosMasVendidos().subscribe((resp: any) => {
-      // this.masvendidos = resp
-      this.masvendidos = resp.productos_mas_vendidos;
-      console.log('Mas vendidos: ', this.masvendidos);
+      // Guardar la respuesta en una variable temporal
+      const productosMasVendidos = resp.productos_mas_vendidos;
+
+      // Extraer los nombres de los productos y las cantidades vendidas
+      const nombresProductos = productosMasVendidos.map((producto: any) => producto.detalle.nombre);
+      const cantidadesVendidas = productosMasVendidos.map((producto: any) => producto.total_vendido);
+
+      // Crear el objeto chartOptions con los datos extraídos
+      this.chartOptions = {
+        series: [{
+          name: "Ventas",
+          data: cantidadesVendidas
+        }],
+        chart: {
+          height: 350,
+          type: "bar"
+        },
+        title: {
+          text: "Top 5 de productos más vendidos"
+        },
+        xaxis: {
+          categories: nombresProductos
+        }
+      };
+
+      console.log('Datos de la grafica:', this.chartOptions); // Para verificar los datos antes de mostrar la gráfica
     });
   }
 

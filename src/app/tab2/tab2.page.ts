@@ -61,6 +61,9 @@ export class Tab2Page implements OnInit {
     this.productS.getDeletedProductObservable().subscribe(() => {
       this.getProducts();
     });
+    this.productS.getProductsObservable().subscribe(() => {
+      this.getProducts();
+    });
 
     //Segunda forma
     // this.productS.deleteProduct.subscribe(product => {
