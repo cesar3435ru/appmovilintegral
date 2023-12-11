@@ -52,12 +52,15 @@ export class Tab1Page {
 
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
+  public chartOp!: Partial<ChartOptions>;
   home = 'Sistema de inventario';
   ventas: any[] = [];
+  // masganancias: any[] = [];
 
   constructor(private modal: ModalController, private p: ProductService) {
 
     this.getProdsMasVendidos();
+    this.getProdsConMasGanancias(); 
     this.getSales();
     this.p.getVentaObservable().subscribe(() => {
       this.getSales();
@@ -65,6 +68,11 @@ export class Tab1Page {
     this.p.getProductVendidoNowAsAObservable().subscribe(() => {
       this.getProdsMasVendidos();
     });
+
+    this.p.getMasGananciasAsaAObservable().subscribe(() => {
+      this.getProdsConMasGanancias(); 
+    });
+
   }
 
 
@@ -183,6 +191,45 @@ export class Tab1Page {
       console.log('Datos de la grafica:', this.chartOptions); // Para verificar los datos antes de mostrar la gráfica
     });
   }
+
+
+
+  // getMasGanancias() {
+  //   this.p.getMasGanancias().subscribe((resp: any) => {
+  //     this.masganancias = resp;
+  //     console.log('Mas ventas:', this.masganancias); // Para verificar los datos antes de mostrar la gráfica
+  //   });
+  // }
+
+  getProdsConMasGanancias() {
+    this.p.getMasGanancias().subscribe((resp: any) => {
+      const productosConMasGanancias = resp;
+  
+      const nombresProductos = productosConMasGanancias.map((producto: any) => producto.nombre);
+      const gananciasTotales = productosConMasGanancias.map((producto: any) => producto.ganancias_totales);
+  
+      this.chartOp = {
+        series: [{
+          name: "Ganancias",
+          data: gananciasTotales
+        }],
+        chart: {
+          height: 350,
+          type: "bar"
+        },
+        title: {
+          text: "Top 5 de productos con mayores ganancias"
+        },
+        xaxis: {
+          categories: nombresProductos
+        }
+      };
+  
+      console.log('Mas ganancias:', this.chartOp);
+    });
+  }
+  
+
 
   esCantidadMayor(cantidad: number): boolean {
     return cantidad > 5;

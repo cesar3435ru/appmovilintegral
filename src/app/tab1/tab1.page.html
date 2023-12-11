@@ -106,4 +106,12 @@
   </ion-card>
 
 
+  <div *ngIf="chartOp">
+    <div style="text-align:center">
+      <apx-chart [series]="chartOp.series!" [chart]="chartOp.chart!" [xaxis]="chartOp.xaxis!"
+        [title]="chartOp.title!"></apx-chart>
+    </div>
+  </div>
+
+
 </ion-content>

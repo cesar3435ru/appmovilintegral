@@ -134,6 +134,7 @@ export class NewVentaComponent implements OnInit {
             this.productS.ventaSubject.next();
             this.productS.getProductsSubject.next();
             this.productS.getProductVendidoSubject.next();
+            this.productS.getPMasGananciaSubject.next();
             this.closeModal();
             this.ventaForm.reset();
           }

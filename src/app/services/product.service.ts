@@ -19,6 +19,7 @@ export class ProductService {
   public ventaSubject: Subject<void> = new Subject<void>();
   public getProductsSubject: Subject<void> = new Subject<void>();
   public getProductVendidoSubject: Subject<void> = new Subject<void>();
+  public getPMasGananciaSubject: Subject<void> = new Subject<void>();
 
 
 
@@ -152,6 +153,14 @@ export class ProductService {
   }
   getProductVendidoNowAsAObservable(): Observable<void> {
     return this.getProductVendidoSubject.asObservable();
+  }
+
+  getMasGanancias() {
+    return this.http.get(this.url + '/api/masganancias');
+  }
+
+  getMasGananciasAsaAObservable(): Observable<void> {
+    return this.getPMasGananciaSubject.asObservable();
   }
 
 
